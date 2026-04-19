@@ -1,0 +1,2570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miss Ely Program | Clases Personalizadas Bilingües</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --yellow: #FFD700;
+    --yellow-dark: #E6C200;
+    --black: #111111;
+    --dark: #1a1a1a;
+    --white: #ffffff;
+    --gray: #f5f5f0;
+    --text: #222222;
+    --muted: #666666;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 72px;
+    border-bottom: 3px solid var(--yellow);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  }
+
+  .nav-logo {
+    font-family: 'Bangers', cursive;
+    font-size: 28px;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--white); }
+
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--black);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--yellow-dark); }
+
+  .nav-cta {
+    background: var(--yellow) !important;
+    color: var(--black) !important;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-weight: 900 !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--yellow-dark) !important; color: var(--black) !important; }
+
+  /* ─── HERO ─── */
+  #hero {
+    background: var(--black);
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 100px 5% 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-stripes {
+    position: absolute; top: 0; right: 0;
+    width: 45%; height: 100%;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--yellow) 0px, var(--yellow) 40px,
+      var(--black) 40px, var(--black) 80px
+    );
+    opacity: 0.08;
+  }
+
+  .hero-content {
+    flex: 1;
+    max-width: 600px;
+    position: relative; z-index: 2;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--black);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+
+  .hero-content h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(52px, 7vw, 90px);
+    color: var(--white);
+    line-height: 1.0;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .hero-content h1 .hl { color: var(--yellow); }
+
+  .hero-content p {
+    font-size: 18px;
+    color: #cccccc;
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 480px;
+  }
+
+  .hero-btns {
+    display: flex; gap: 16px; flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--yellow);
+    color: var(--black);
+    font-weight: 900;
+    font-size: 15px;
+    padding: 14px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: transform 0.15s, background 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--yellow-dark); transform: translateY(-2px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 32px;
+    border-radius: 8px;
+    border: 2px solid rgba(255,255,255,0.3);
+    text-decoration: none;
+    transition: border-color 0.15s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  .hero-mascot {
+    position: absolute; right: 5%; bottom: 0;
+    height: 85%;
+    max-height: 680px;
+    object-fit: contain;
+    z-index: 1;
+    filter: drop-shadow(0 0 40px rgba(255,215,0,0.15));
+  }
+
+  .hero-stats {
+    display: flex; gap: 40px;
+    margin-top: 52px;
+    flex-wrap: wrap;
+  }
+
+  .stat { }
+
+  .stat .num {
+    font-family: 'Bangers', cursive;
+    font-size: 42px;
+    color: var(--yellow);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat .lbl {
+    font-size: 13px;
+    color: #aaa;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── SECTION BASE ─── */
+  section { padding: 90px 5%; }
+
+  .section-label {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--black);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(36px, 5vw, 60px);
+    color: var(--black);
+    line-height: 1.1;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-size: 17px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  /* ─── ALIADOS COLEGIOS ─── */
+  #colegios {
+    background: var(--yellow);
+    padding: 40px 5%;
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 20px;
+    border-top: 4px solid var(--black);
+    border-bottom: 4px solid var(--black);
+    text-align: center;
+  }
+
+  #colegios p {
+    font-weight: 900;
+    font-size: 17px;
+    color: var(--black);
+    letter-spacing: 0.5px;
+  }
+
+  .colegios-badges {
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  }
+
+  .colegio-badge {
+    background: var(--black);
+    color: var(--yellow);
+    font-size: 12px;
+    font-weight: 900;
+    padding: 8px 18px;
+    border-radius: 30px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── SERVICIOS ─── */
+  #servicios { background: var(--white); }
+
+  .services-intro {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: center; margin-bottom: 60px;
+  }
+
+  .services-img-wrap {
+    display: flex; justify-content: center;
+  }
+
+  .services-img-wrap img {
+    max-height: 360px;
+    object-fit: contain;
+    filter: drop-shadow(4px 8px 20px rgba(0,0,0,0.12));
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .service-card {
+    background: var(--gray);
+    border-radius: 16px;
+    padding: 28px 24px;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card:hover {
+    border-color: var(--yellow);
+    transform: translateY(-4px);
+    background: var(--white);
+    box-shadow: 0 8px 30px rgba(255,215,0,0.12);
+  }
+
+  .service-card.featured {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .service-card.featured .svc-title { color: var(--yellow); }
+  .service-card.featured .svc-desc { color: #ccc; }
+
+  .svc-icon {
+    width: 48px; height: 48px;
+    background: var(--yellow);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+
+  .service-card.featured .svc-icon { background: rgba(255,215,0,0.15); }
+
+  .svc-title {
+    font-family: 'Bangers', cursive;
+    font-size: 22px;
+    color: var(--black);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .svc-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── SERVICIOS — Accordion ─── */
+  .svc-list {
+    margin-top: 12px;
+    list-style: none;
+    display: flex; flex-direction: column; gap: 6px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, margin-top 0.3s ease;
+    opacity: 0;
+  }
+
+  .service-card.expanded .svc-list {
+    max-height: 300px;
+    opacity: 1;
+    margin-top: 14px;
+  }
+
+  .svc-expand-btn {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--yellow-dark);
+    letter-spacing: 0.3px;
+    transition: color 0.2s;
+  }
+
+  .service-card.featured .svc-expand-btn { color: #FFD700; }
+
+  .svc-expand-btn:hover { color: var(--black); }
+  .service-card.featured .svc-expand-btn:hover { color: #fff; }
+
+  .svc-expand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px; height: 22px;
+    background: var(--yellow);
+    border-radius: 50%;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .service-card.featured .svc-expand-icon { background: rgba(255,215,0,0.25); }
+
+  .svc-expand-icon svg {
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  .service-card.expanded .svc-expand-icon svg {
+    transform: rotate(180deg);
+  }
+
+  .service-card.expanded .svc-expand-icon {
+    background: var(--black);
+  }
+
+  .service-card.featured.expanded .svc-expand-icon {
+    background: var(--yellow);
+  }
+
+  .svc-list li {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .service-card.featured .svc-list li { color: #bbb; }
+
+  .svc-list li::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--yellow);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .free-tag {
+    position: absolute; top: 16px; right: 16px;
+    background: var(--yellow);
+    color: var(--black);
+    font-size: 10px;
+    font-weight: 900;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* ─── MAX SECTION ─── */
+  #max {
+    background: var(--black);
+    display: flex; align-items: center; gap: 60px;
+    flex-wrap: wrap;
+    position: relative; overflow: hidden;
+  }
+
+  .max-bg-text {
+    position: absolute;
+    font-family: 'Bangers', cursive;
+    font-size: 200px;
+    color: rgba(255,215,0,0.04);
+    top: 50%; left: 5%;
+    transform: translateY(-50%);
+    letter-spacing: 10px;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .max-images {
+    display: flex; gap: 16px; align-items: flex-end;
+    flex: 1; min-width: 280px;
+  }
+
+  .max-images img {
+    height: 220px; object-fit: contain;
+    transition: transform 0.3s;
+    filter: drop-shadow(0 4px 20px rgba(255,215,0,0.1));
+  }
+
+  .max-images img:hover { transform: scale(1.05) rotate(-2deg); }
+  .max-images img:nth-child(2) { height: 280px; }
+  .max-images img:nth-child(3) { height: 200px; }
+
+  .max-content { flex: 1; min-width: 280px; position: relative; z-index: 2; }
+
+  .max-content .section-label { margin-bottom: 12px; }
+
+  .max-content h2 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(40px, 5vw, 64px);
+    color: var(--white);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+
+  .max-content h2 .hl { color: var(--yellow); }
+
+  .max-content p {
+    font-size: 16px;
+    color: #bbb;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* ─── PROCESO ─── */
+  #proceso { background: var(--gray); }
+
+  .proceso-header { text-align: center; margin-bottom: 60px; }
+  .proceso-header .section-sub { margin: 0 auto; }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 44px; left: 10%; right: 10%;
+    height: 2px;
+    background: var(--yellow);
+    z-index: 0;
+  }
+
+  .step {
+    text-align: center;
+    padding: 0 20px;
+    position: relative; z-index: 1;
+  }
+
+  .step-num {
+    width: 88px; height: 88px;
+    background: var(--black);
+    border: 4px solid var(--yellow);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-family: 'Bangers', cursive;
+    font-size: 32px;
+    color: var(--yellow);
+  }
+
+  .step-title {
+    font-weight: 900;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--black);
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── POR QUÉ ─── */
+  #porque {
+    background: var(--white);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+
+  .porque-list {
+    display: flex; flex-direction: column; gap: 24px;
+    margin-top: 32px;
+  }
+
+  .porque-item {
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+
+  .porque-icon {
+    width: 44px; height: 44px;
+    background: var(--yellow);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .porque-text h4 {
+    font-weight: 900; font-size: 16px; margin-bottom: 4px;
+  }
+
+  .porque-text p { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+  .porque-visual {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+
+  .pq-card {
+    background: var(--black);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .pq-card:nth-child(2) { background: var(--yellow); margin-top: 24px; }
+  .pq-card:nth-child(3) { background: var(--yellow); margin-top: -24px; }
+  .pq-card:nth-child(4) { background: var(--black); }
+
+  .pq-num {
+    font-family: 'Bangers', cursive;
+    font-size: 48px;
+    line-height: 1;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .pq-card:nth-child(1) .pq-num,
+  .pq-card:nth-child(4) .pq-num { color: var(--yellow); }
+  .pq-card:nth-child(2) .pq-num,
+  .pq-card:nth-child(3) .pq-num { color: var(--black); }
+
+  .pq-lbl {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .pq-card:nth-child(1) .pq-lbl,
+  .pq-card:nth-child(4) .pq-lbl { color: #aaa; }
+  .pq-card:nth-child(2) .pq-lbl,
+  .pq-card:nth-child(3) .pq-lbl { color: #444; }
+
+  /* ─── MILENA ─── */
+  #milena {
+    background: var(--yellow);
+    display: flex; align-items: center; gap: 60px; flex-wrap: wrap;
+    border-top: 4px solid var(--black);
+    border-bottom: 4px solid var(--black);
+  }
+
+  .milena-text h2 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(36px, 5vw, 58px);
+    color: var(--black);
+    line-height: 1.05;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    margin-top: 12px;
+  }
+
+  .milena-text p {
+    font-size: 16px; color: #333; line-height: 1.7; margin-bottom: 12px;
+  }
+
+  .milena-chips {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;
+  }
+
+  .chip {
+    background: var(--black);
+    color: var(--yellow);
+    font-size: 12px;
+    font-weight: 900;
+    padding: 6px 16px;
+    border-radius: 30px;
+  }
+
+  .milena-avatar {
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--black);
+    flex-shrink: 0;
+  }
+
+  .milena-visual {
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .milena-name {
+    font-family: 'Bangers', cursive;
+    font-size: 22px;
+    color: var(--black);
+    letter-spacing: 1px;
+  }
+
+  .milena-sub {
+    font-size: 12px; color: #555; font-weight: 700;
+  }
+
+  /* ─── COLEGIOS BILINGUES ─── */
+  #bilingues {
+    background: var(--black);
+    text-align: center;
+  }
+
+  #bilingues .section-title { color: var(--white); }
+  #bilingues .section-sub { color: #bbb; margin: 0 auto 48px; }
+
+  .bilingues-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .bil-card {
+    background: #1e1e1e;
+    border: 2px solid #333;
+    border-radius: 14px;
+    padding: 24px 16px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .bil-card:hover {
+    border-color: var(--yellow);
+    transform: translateY(-4px);
+  }
+
+  .bil-icon { font-size: 32px; margin-bottom: 12px; }
+
+  .bil-title {
+    font-weight: 900; font-size: 15px; color: var(--yellow);
+    margin-bottom: 6px;
+  }
+
+  .bil-desc { font-size: 13px; color: #999; line-height: 1.5; }
+
+  /* ─── CTA FINAL ─── */
+  #contacto {
+    background: var(--yellow);
+    text-align: center;
+    border-top: 4px solid var(--black);
+  }
+
+  #contacto h2 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(40px, 6vw, 72px);
+    color: var(--black);
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    line-height: 1.05;
+  }
+
+  #contacto p {
+    font-size: 18px;
+    color: #333;
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+
+  .contact-btns {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  }
+
+  .btn-black {
+    background: var(--black);
+    color: var(--yellow);
+    font-weight: 900;
+    font-size: 15px;
+    padding: 16px 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: transform 0.15s, background 0.15s;
+  }
+
+  .btn-black:hover { background: #333; transform: translateY(-2px); }
+
+  .cta-mascot {
+    position: absolute; right: 8%; bottom: 0;
+    height: 260px; object-fit: contain;
+    pointer-events: none;
+  }
+
+  #contacto { position: relative; overflow: hidden; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--black);
+    color: #aaa;
+    padding: 40px 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 20px;
+    border-top: 3px solid var(--yellow);
+  }
+
+  .footer-logo {
+    font-family: 'Bangers', cursive;
+    font-size: 26px;
+    color: var(--yellow);
+    letter-spacing: 2px;
+  }
+
+  footer p { font-size: 13px; }
+
+  .footer-links {
+    display: flex; gap: 24px; list-style: none;
+  }
+
+  .footer-links a {
+    color: #aaa; text-decoration: none; font-size: 13px; font-weight: 700;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--yellow); }
+
+  /* ─── MAX mascot tooltip ─── */
+  .max-mascot-img {
+    height: 220px;
+    object-fit: contain;
+    transition: transform 0.3s;
+    filter: drop-shadow(0 4px 20px rgba(255,215,0,0.1));
+    cursor: pointer;
+  }
+  .max-mascot-img:hover { transform: scale(1.05) rotate(-2deg); }
+
+  .max-tooltip {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px) scale(0.85);
+    background: #FFD700;
+    color: #111;
+    font-family: 'Bangers', cursive;
+    font-size: 20px;
+    letter-spacing: 1px;
+    padding: 7px 18px;
+    border-radius: 30px;
+    white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(255,215,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 5;
+  }
+  .max-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 7px 7px 0;
+    border-style: solid;
+    border-color: #FFD700 transparent transparent;
+  }
+  .max-img-wrap:hover .max-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  /* ─── MILENA chips carousel ─── */
+  .milena-chips-carousel-wrap {
+    overflow: hidden;
+    width: 100%;
+    margin-top: 20px;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+  .milena-chips-track {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+    animation: milena-scroll 18s linear infinite;
+  }
+  .milena-chips-track:hover { animation-play-state: paused; }
+  @keyframes milena-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-mascot { display: none; }
+    #porque { grid-template-columns: 1fr; }
+    .services-intro { grid-template-columns: 1fr; }
+    #max { flex-direction: column; }
+    .steps::before { display: none; }
+    .cta-mascot { display: none; }
+    .services-img-wrap { display: none; }
+    #colegios { flex-direction: column; text-align: center; }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     WHATSAPP FLOATING WIDGET — MISS ELY PROGRAM
+  ═══════════════════════════════════════════════════════════ */
+
+  /* Contenedor principal */
+  #wa-widget {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  /* ── Tarjeta expandible ── */
+  #wa-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+    width: 300px;
+    overflow: hidden;
+    transform: scale(0.85) translateY(20px);
+    transform-origin: bottom right;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                opacity 0.25s ease;
+  }
+
+  #wa-card.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Header de la tarjeta */
+  .wa-card-header {
+    background: #111;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+  }
+
+  .wa-card-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #FFD700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .wa-card-avatar::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 11px;
+    height: 11px;
+    background: #25D366;
+    border-radius: 50%;
+    border: 2px solid #111;
+  }
+
+  .wa-card-info {}
+
+  .wa-card-name {
+    font-family: 'Bangers', cursive;
+    font-size: 17px;
+    color: #FFD700;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+
+  .wa-card-status {
+    font-size: 11px;
+    color: #25D366;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .wa-card-status::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #25D366;
+    border-radius: 50%;
+    animation: blink-dot 1.6s ease-in-out infinite;
+  }
+
+  @keyframes blink-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .wa-card-close {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: #aaa;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .wa-card-close:hover {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+  }
+
+  /* Cuerpo de la tarjeta */
+  .wa-card-body {
+    padding: 18px 16px 8px;
+    background: #ece5dd;
+    min-height: 90px;
+  }
+
+  .wa-bubble {
+    background: #fff;
+    border-radius: 0 12px 12px 12px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    color: #333;
+    line-height: 1.55;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: relative;
+    max-width: 250px;
+    animation: bubble-in 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  .wa-bubble::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 0;
+    border-width: 0 8px 8px 0;
+    border-style: solid;
+    border-color: transparent #fff transparent transparent;
+  }
+
+  .wa-bubble-time {
+    font-size: 10px;
+    color: #999;
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  @keyframes bubble-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Typing dots (se muestran antes del mensaje) */
+  .wa-typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 14px;
+    background: #fff;
+    border-radius: 0 12px 12px 12px;
+    width: fit-content;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 8px;
+  }
+
+  .wa-typing span {
+    width: 7px;
+    height: 7px;
+    background: #bbb;
+    border-radius: 50%;
+    animation: typing-bounce 1.2s ease-in-out infinite;
+  }
+
+  .wa-typing span:nth-child(1) { animation-delay: 0s; }
+  .wa-typing span:nth-child(2) { animation-delay: 0.2s; }
+  .wa-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing-bounce {
+    0%, 60%, 100% { transform: translateY(0); background: #bbb; }
+    30% { transform: translateY(-5px); background: #888; }
+  }
+
+  /* Footer de la tarjeta */
+  .wa-card-footer {
+    padding: 12px 16px 16px;
+    background: #ece5dd;
+  }
+
+  .wa-start-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    background: #25D366;
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    padding: 13px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+    letter-spacing: 0.3px;
+  }
+
+  .wa-start-btn:hover {
+    background: #1ebe5d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(37,211,102,0.45);
+  }
+
+  .wa-start-btn svg {
+    flex-shrink: 0;
+  }
+
+  .wa-privacy {
+    text-align: center;
+    font-size: 10px;
+    color: #999;
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* ── Burbuja de notificación flotante (pre-apertura) ── */
+  #wa-notif-bubble {
+    background: #fff;
+    border-radius: 14px 14px 4px 14px;
+    padding: 9px 15px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #222;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.14);
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(10px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    border: 1.5px solid #f0f0f0;
+  }
+
+  #wa-notif-bubble.visible {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  #wa-notif-bubble span.highlight {
+    color: #25D366;
+  }
+
+  /* ── Botón principal ── */
+  #wa-btn {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: #25D366;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.5), 0 2px 8px rgba(0,0,0,0.15);
+    position: relative;
+    transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1),
+                box-shadow 0.2s ease;
+    animation: wa-entrance 0.6s cubic-bezier(0.34,1.56,0.64,1) 1.2s both;
+    flex-shrink: 0;
+  }
+
+  @keyframes wa-entrance {
+    from { transform: scale(0) rotate(-30deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  #wa-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(37,211,102,0.6), 0 3px 12px rgba(0,0,0,0.18);
+  }
+
+  #wa-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Anillo de pulso */
+  #wa-btn::before,
+  #wa-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(37,211,102,0.35);
+    animation: wa-pulse 2.4s ease-out infinite;
+    pointer-events: none;
+  }
+
+  #wa-btn::after {
+    animation-delay: 1.2s;
+    background: rgba(37,211,102,0.2);
+  }
+
+  @keyframes wa-pulse {
+    0%   { transform: scale(1);   opacity: 1; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+
+  /* Ícono WhatsApp dentro del botón */
+  .wa-icon-wrap {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  #wa-btn.is-open .wa-icon-wrap {
+    transform: rotate(90deg) scale(0.85);
+  }
+
+  /* Badge contador (notificación roja) */
+  #wa-badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 20px;
+    height: 20px;
+    background: #ff3b30;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 900;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    animation: badge-pop 0.4s cubic-bezier(0.34,1.56,0.64,1) 2s both;
+    z-index: 2;
+  }
+
+  @keyframes badge-pop {
+    from { transform: scale(0); }
+    to   { transform: scale(1); }
+  }
+
+  #wa-badge.hidden { display: none; }
+
+  /* Responsive mobile */
+  @media (max-width: 480px) {
+    #wa-widget {
+      bottom: 18px;
+      right: 16px;
+    }
+    #wa-card {
+      width: 270px;
+    }
+    #wa-btn {
+      width: 56px;
+      height: 56px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><img src="img/logo.png" alt="Miss Ely Program" style="height:52px;width:auto;object-fit:contain;display:block;"></a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proceso">¿Cómo funciona?</a></li>
+    <li><a href="#porque">¿Por qué nosotros?</a></li>
+    <li><a href="#bilingues">Colegios Bilingües</a></li>
+    <li><a href="#terapias">Terapias</a></li>
+    <li><a href="#contacto" class="nav-cta">Contáctanos</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-stripes"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ Educación Bilingüe Personalizada</div>
+    <h1>
+      Impulsamos el<br>
+      <span class="hl">éxito académico</span><br>
+      de tus hijos.
+    </h1>
+    <p>Clases personalizadas en todas las áreas con docentes bilingües y profesionales. Virtuales o presenciales en tu hogar. ¡6 años transformando vidas!</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/573213204588?text=Hola!%20Quiero%20una%20asesor%C3%ADa%20gratis%20para%20mi%20hijo%2Fa" target="_blank" class="btn-primary">📲 Quiero una asesoría gratis</a>
+      <a href="#servicios" class="btn-outline">Ver servicios</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="num">+1.600</span>
+        <span class="lbl">Estudiantes exitosos</span>
+      </div>
+      <div class="stat">
+        <span class="num">+10</span>
+        <span class="lbl">Años de experiencia</span>
+      </div>
+      <div class="stat">
+        <span class="num">100%</span>
+        <span class="lbl">Docentes certificados</span>
+      </div>
+    </div>
+  </div>
+  <img src="img/header-miss.webp" class="hero-mascot" alt="Max, la mascota de Miss Ely Program">
+</section>
+
+<!-- ALIADOS -->
+<div id="colegios">
+  <div style="text-align:center;width:100%;">
+    <p style="margin-bottom:16px;">🏫 Trabajamos de la mano con colegios bilingües en Colombia</p>
+    <div class="colegios-badges" style="justify-content:center;">
+      <span class="colegio-badge">Colegios Bilingües</span>
+      <span class="colegio-badge">Instituciones Privadas</span>
+      <span class="colegio-badge">Colegios Públicos</span>
+      <span class="colegio-badge">Educación Primaria y Bachillerato</span>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="services-intro">
+    <div>
+      <div class="section-label">Nuestros Servicios</div>
+      <h2 class="section-title">Todo lo que tu<br>hijo necesita,<br>en un solo lugar.</h2>
+      <p class="section-sub">Desde refuerzo académico hasta desarrollo personal. Trabajamos de la mano con el colegio para garantizar resultados reales y duraderos.</p>
+    </div>
+    <div class="services-img-wrap">
+      <img src="img/13.png" alt="Max explicando">
+    </div>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card featured">
+      <div class="svc-icon">📚</div>
+      <div class="svc-title">Refuerzo Todas las Áreas Bilingüe</div>
+      <p class="svc-desc">Apoyamos a tus hijos en todas las materias, en español e inglés, trabajando de la mano con los colegios y sus plataformas institucionales.</p>
+      <button class="svc-expand-btn" aria-expanded="false">
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Ver detalles
+      </button>
+      <ul class="svc-list">
+        <li>Matemáticas, Ciencias, Inglés, Sociales y más</li>
+        <li>Diagnóstico de cualidades y aptitudes</li>
+        <li>Diagnóstico matemático inicial</li>
+        <li>Revisión de plataformas del colegio</li>
+        <li>Preparación para exámenes</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="svc-icon">🏠</div>
+      <div class="svc-title">Clases Presenciales en tu Hogar</div>
+      <p class="svc-desc">Nuestros tutores expertos llegan a tu casa para una enseñanza directa, personalizada y cómoda para toda la familia.</p>
+      <button class="svc-expand-btn" aria-expanded="false">
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Ver detalles
+      </button>
+      <ul class="svc-list">
+        <li>Tutor certificado en tu domicilio</li>
+        <li>Horario flexible a tu medida</li>
+        <li>Interacción directa y personalizada</li>
+        <li>Seguimiento semanal al progreso</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="svc-icon">💻</div>
+      <div class="svc-title">Clases Virtuales Online</div>
+      <p class="svc-desc">Aprende desde la comodidad del hogar con herramientas digitales de vanguardia y docentes bilingües altamente capacitados.</p>
+      <button class="svc-expand-btn" aria-expanded="false">
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Ver detalles
+      </button>
+      <ul class="svc-list">
+        <li>Plataformas interactivas de última generación</li>
+        <li>Clases en vivo con docente dedicado</li>
+        <li>Material didáctico digital incluido</li>
+        <li>Grabación de sesiones disponible</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="free-tag">GRATIS</div>
+      <div class="svc-icon">🎯</div>
+      <div class="svc-title">Programa Hábitos de Estudio</div>
+      <p class="svc-desc">Incluido en todos nuestros planes. Desarrollamos habilidades de aprendizaje que preparan a tus hijos para el éxito de por vida.</p>
+      <button class="svc-expand-btn" aria-expanded="false">
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Ver detalles
+      </button>
+      <ul class="svc-list">
+        <li>Gestión del tiempo y organización</li>
+        <li>Técnicas de toma de apuntes</li>
+        <li>Resolución de problemas</li>
+        <li>Evaluación y seguimiento constante</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="free-tag">GRATIS</div>
+      <div class="svc-icon">📋</div>
+      <div class="svc-title">Cartilla Proyecto Personal</div>
+      <p class="svc-desc">Una guía completa para desarrollar la mejor versión en todas las áreas de la vida de tu hij@. Incluida en el programa.</p>
+      <button class="svc-expand-btn" aria-expanded="false">
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Ver detalles
+      </button>
+      <ul class="svc-list">
+        <li>Rueda de la vida personalizada</li>
+        <li>Desarrollo emocional y personal</li>
+        <li>Formación en valores y ética</li>
+        <li>Proyecto de vida a largo plazo</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="svc-icon">🔗</div>
+      <div class="svc-title">Alianza con tu Colegio</div>
+      <p class="svc-desc">Nos coordinamos directamente con los colegios bilingües para complementar y reforzar el currículo institucional de manera efectiva.</p>
+      <button class="svc-expand-btn" aria-expanded="false">
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Ver detalles
+      </button>
+      <ul class="svc-list">
+        <li>Apoyo en tareas y cuadernos</li>
+        <li>Revisión de plataformas institucionales</li>
+        <li>Acciones reparadoras si hay incumplimientos</li>
+        <li>Comunicación con docentes del colegio</li>
+      </ul>
+    </div>
+
+    <div class="service-card featured">
+      <div class="svc-icon">📜</div>
+      <div class="svc-title">Certificados Oficiales</div>
+      <p class="svc-desc">En Miss Ely Program 💛 no solo acompañamos el proceso académico… también emitimos certificados oficiales de clases y participación en el programa.</p>
+      <button class="svc-expand-btn" aria-expanded="false">
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        Ver detalles
+      </button>
+      <ul class="svc-list">
+        <li>Certificados presentables ante colegios</li>
+        <li>Válidos para procesos de recuperación</li>
+        <li>Apoyo en validación académica</li>
+        <li>Un respaldo real para el proceso de tu hijo/a 💛</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MAX SECTION -->
+<section id="max">
+  <div class="max-bg-text">MAX</div>
+  <div class="max-images">
+    <div class="max-img-wrap" style="position:relative;display:inline-flex;align-items:flex-end;">
+      <img src="img/14.png" alt="Max celebrando" class="max-mascot-img">
+      <div class="max-tooltip">¡Hola! 💛</div>
+    </div>
+    <div class="max-img-wrap" style="position:relative;display:inline-flex;align-items:flex-end;">
+      <img src="img/15.png" alt="Max enseñando" class="max-mascot-img" style="height:280px;">
+      <div class="max-tooltip">¡Hola! 💛</div>
+    </div>
+    <div class="max-img-wrap" style="position:relative;display:inline-flex;align-items:flex-end;">
+      <img src="img/16.png" alt="Max pensando" class="max-mascot-img" style="height:200px;">
+      <div class="max-tooltip">¡Hola! 💛</div>
+    </div>
+  </div>
+  <div class="max-content">
+    <div class="section-label">Nuestra Mascota</div>
+    <h2>¡Hola, soy <span class="hl">Max!</span><br>Tu compañero en este<br>proceso de aprendizaje.</h2>
+    <p>Soy la mascota de Miss Ely Program. Acompaño a los estudiantes en cada clase, les doy ánimo cuando los problemas se ponen difíciles y celebro con ellos cada logro alcanzado.</p>
+    <p>Porque aprender no tiene que ser aburrido — ¡con Max a tu lado, cada clase es una aventura!</p>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso">
+  <div class="proceso-header">
+    <div class="section-label">¿Cómo funciona?</div>
+    <h2 class="section-title">Empezar es muy fácil</h2>
+    <p class="section-sub">En pocos pasos tu hijo ya estará recibiendo el apoyo que necesita con los mejores docentes.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Contáctanos</div>
+      <p class="step-desc">Escríbenos por WhatsApp o nuestras redes. Te respondemos de inmediato con toda la información.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Diagnóstico Gratuito</div>
+      <p class="step-desc">Evaluamos las fortalezas y áreas de mejora de tu hijo para diseñar un plan completamente personalizado.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Asignamos el Docente Ideal</div>
+      <p class="step-desc">Te presentamos el tutor bilingüe perfecto según el perfil, nivel y necesidades específicas de tu hij@.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">¡Empezamos a brillar!</div>
+      <p class="step-desc">Las clases comienzan y el seguimiento constante garantiza resultados visibles desde la primera semana.</p>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUÉ NOSOTROS -->
+<section id="porque">
+  <div>
+    <div class="section-label">¿Por qué Miss Ely Program?</div>
+    <h2 class="section-title">Somos tus socios en el aprendizaje de tu hijo/a 💛</h2>
+    <div class="porque-list">
+      <div class="porque-item">
+        <div class="porque-icon">🎓</div>
+        <div class="porque-text">
+          <h4>Docentes bilingües certificados</h4>
+          <p>Cada tutor es seleccionado rigurosamente por su experiencia académica y habilidad para comunicar de manera efectiva en español e inglés.</p>
+        </div>
+      </div>
+      <div class="porque-item">
+        <div class="porque-icon">📊</div>
+        <div class="porque-text">
+          <h4>Seguimiento y comunicación abierta</h4>
+          <p>Mantenemos a los padres siempre informados sobre el progreso de sus hijos. Nuestra asistente Milena está disponible 24/7.</p>
+        </div>
+      </div>
+      <div class="porque-item">
+        <div class="porque-icon">🏫</div>
+        <div class="porque-text">
+          <h4>Trabajamos con tu colegio bilingüe</h4>
+          <p>Nos coordinamos directamente con la institución para reforzar el currículo, apoyar en plataformas y garantizar continuidad académica.</p>
+        </div>
+      </div>
+      <div class="porque-item">
+        <div class="porque-icon">⚡</div>
+        <div class="porque-text">
+          <h4>Resultados desde la primera semana</h4>
+          <p>Nuestro enfoque práctico y personalizado genera cambios visibles rápidamente en rendimiento, confianza y hábitos de estudio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="porque-visual">
+    <div class="pq-card">
+      <span class="pq-num">+1.600</span>
+      <span class="pq-lbl">Estudiantes educados</span>
+    </div>
+    <div class="pq-card">
+      <span class="pq-num">+10</span>
+      <span class="pq-lbl">Años de trayectoria</span>
+    </div>
+    <div class="pq-card">
+      <span class="pq-num">100%</span>
+      <span class="pq-lbl">Personalizado</span>
+    </div>
+    <div class="pq-card">
+      <span class="pq-num">24/7</span>
+      <span class="pq-lbl">Soporte a familias</span>
+    </div>
+  </div>
+</section>
+
+<!-- MILENA -->
+<section id="milena" style="text-align:center;flex-direction:column;align-items:center;">
+  <div class="milena-visual">
+    <div style="width:120px;height:120px;border-radius:50%;border:4px solid #111;overflow:hidden;flex-shrink:0;">
+      <img src="img/milena.jpeg" alt="Milena - Asistente Virtual" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+    </div>
+    <div class="milena-name">MILENA</div>
+    <div class="milena-sub">Asistente Virtual</div>
+  </div>
+  <div class="milena-text" style="flex:1;text-align:center;max-width:560px;">
+    <h2>Milena siempre está aquí para ti.</h2>
+    <p>Presentamos a Milena, nuestra asistente virtual disponible para padres, estudiantes y docentes en cualquier momento del día. Sin costo adicional.</p>
+    <p>Resuelve dudas, comparte avances, coordina horarios y mantiene a toda la familia conectada con el programa de manera sencilla y efectiva.</p>
+    <div class="milena-chips" style="justify-content:center;">
+      <span class="chip">📱 WhatsApp directo</span>
+      <span class="chip">⏰ Disponible 24/7</span>
+      <span class="chip">👨‍👩‍👧 Para toda la familia</span>
+      <span class="chip">💛 Sin costo adicional</span>
+    </div>
+  </div>
+</section>
+
+<!-- COLEGIOS BILINGUES -->
+<section id="bilingues">
+  <div class="section-label">Nuestra especialidad</div>
+  <h2 class="section-title" style="color:var(--white);">Aliados de los Colegios<br>Bilingües de Colombia</h2>
+  <p class="section-sub">Nos especializamos en reforzar y complementar el aprendizaje de estudiantes en instituciones bilingües, adaptándonos a sus metodologías y exigencias.</p>
+
+  <div class="bilingues-grid">
+    <div class="bil-card">
+      <div class="bil-icon" style="font-size:32px;margin-bottom:12px;filter:brightness(0) invert(1);">📖</div>
+      <div class="bil-title">Inglés Académico</div>
+      <p class="bil-desc">Refuerzo en inglés alineado al currículo bilingüe del colegio, con docentes nativos y bilingües certificados.</p>
+    </div>
+    <div class="bil-card">
+      <div class="bil-icon">📐</div>
+      <div class="bil-title">STEM Bilingüe</div>
+      <p class="bil-desc">Matemáticas, Ciencias y Tecnología en inglés, siguiendo los estándares de los mejores colegios bilingües.</p>
+    </div>
+    <div class="bil-card">
+      <div class="bil-icon">📚</div>
+      <div class="bil-title">Todas las Asignaturas</div>
+      <p class="bil-desc">Apoyo integral en todas las materias del currículo, tanto en español como en inglés, según el colegio.</p>
+    </div>
+    <div class="bil-card">
+      <div class="bil-icon">🤝</div>
+      <div class="bil-title">Coordinación Directa</div>
+      <p class="bil-desc">Trabajamos de la mano con los docentes del colegio para garantizar continuidad y refuerzo efectivo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="contacto">
+  <img src="img/13.png" class="cta-mascot" alt="Max saludando">
+  <div class="section-label">¡Empecemos hoy!</div>
+  <h2>¿Listo para el<br>éxito de tu hijo?</h2>
+  <p>Agenda hoy tu diagnóstico gratuito y descubre cómo Miss Ely Program puede transformar la experiencia académica de tu familia.</p>
+  <div class="contact-btns">
+    <a href="https://wa.me/573213204588" class="btn-black" target="_blank">
+      💬 Escribir por WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT BAR -->
+<div id="contactbar" style="background:#FFD700;border-top:4px solid #111;border-bottom:4px solid #111;padding:22px 5%;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;text-align:center;">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span style="font-size:28px;">💬</span>
+    <div>
+      <div style="font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:2px;">Comunícate con nosotros</div>
+      <a href="https://wa.me/573213204588" style="font-family:'Bangers',cursive;font-size:22px;color:#111;text-decoration:none;letter-spacing:0.5px;">+57 321 320 4588</a>
+    </div>
+  </div>
+</div>
+
+<!-- TERAPIAS -->
+<section id="terapias" style="background:#111;padding:90px 5%;">
+  <div style="text-align:center;margin-bottom:60px;">
+    <div style="display:inline-block;background:#FFD700;color:#111;font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;padding:5px 14px;border-radius:4px;margin-bottom:16px;">A Domicilio</div>
+    <h2 style="font-family:'Bangers',cursive;font-size:clamp(36px,5vw,60px);color:#FFD700;letter-spacing:1px;margin-bottom:16px;line-height:1.05;">Nuestras Terapias<br><span style="color:#fff;">son a Domicilio</span></h2>
+    <p style="font-size:17px;color:#bbb;max-width:540px;margin:0 auto;line-height:1.7;">Profesionales expertos van hasta tu hogar para brindar una atención completamente personalizada, cómoda y efectiva.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;max-width:960px;margin:0 auto 70px;">
+    <div class="terapia-card" style="background:#1e1e1e;border:2px solid #333;border-radius:14px;padding:28px 16px;text-align:center;transition:border-color 0.2s,transform 0.2s;cursor:default;">
+      <div style="font-size:36px;margin-bottom:14px;">🧩</div>
+      <div style="font-family:'Bangers',cursive;font-size:20px;color:#FFD700;margin-bottom:6px;letter-spacing:0.5px;">Terapia Ocupacional</div>
+      <p style="font-size:12px;color:#999;line-height:1.5;">Desarrollo de habilidades funcionales y autonomía en el entorno del niño.</p>
+    </div>
+    <div class="terapia-card" style="background:#1e1e1e;border:2px solid #333;border-radius:14px;padding:28px 16px;text-align:center;transition:border-color 0.2s,transform 0.2s;cursor:default;">
+      <div style="font-size:36px;margin-bottom:14px;">🗣️</div>
+      <div style="font-family:'Bangers',cursive;font-size:20px;color:#FFD700;margin-bottom:6px;letter-spacing:0.5px;">Fonoaudiología</div>
+      <p style="font-size:12px;color:#999;line-height:1.5;">Comunicación, lenguaje y voz trabajados en el ambiente natural del paciente.</p>
+    </div>
+    <div class="terapia-card" style="background:#1e1e1e;border:2px solid #333;border-radius:14px;padding:28px 16px;text-align:center;transition:border-color 0.2s,transform 0.2s;cursor:default;">
+      <div style="font-size:36px;margin-bottom:14px;">🧠</div>
+      <div style="font-family:'Bangers',cursive;font-size:20px;color:#FFD700;margin-bottom:6px;letter-spacing:0.5px;">Psicología</div>
+      <p style="font-size:12px;color:#999;line-height:1.5;">Acompañamiento emocional y conductual para el bienestar integral del menor.</p>
+    </div>
+    <div class="terapia-card" style="background:#1e1e1e;border:2px solid #333;border-radius:14px;padding:28px 16px;text-align:center;transition:border-color 0.2s,transform 0.2s;cursor:default;">
+      <div style="font-size:36px;margin-bottom:14px;">🔬</div>
+      <div style="font-family:'Bangers',cursive;font-size:20px;color:#FFD700;margin-bottom:6px;letter-spacing:0.5px;">Neuropsicología</div>
+      <p style="font-size:12px;color:#999;line-height:1.5;">Evaluación y rehabilitación de funciones cognitivas y neurológicas.</p>
+    </div>
+    <div class="terapia-card" style="background:#1e1e1e;border:2px solid #333;border-radius:14px;padding:28px 16px;text-align:center;transition:border-color 0.2s,transform 0.2s;cursor:default;">
+      <div style="font-size:36px;margin-bottom:14px;">🌟</div>
+      <div style="font-family:'Bangers',cursive;font-size:20px;color:#FFD700;margin-bottom:6px;letter-spacing:0.5px;">Educación Especial</div>
+      <p style="font-size:12px;color:#999;line-height:1.5;">Apoyo especializado adaptado a las necesidades educativas de cada estudiante.</p>
+    </div>
+  </div>
+
+  <div style="max-width:960px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:40px;">
+      <div style="display:inline-block;background:#FFD700;color:#111;font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;padding:5px 14px;border-radius:4px;margin-bottom:12px;">Beneficios</div>
+      <h3 style="font-family:'Bangers',cursive;font-size:36px;color:#fff;letter-spacing:1px;">¿Por qué terapia en casa?</h3>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;">
+      <div style="background:#1a1a1a;border-left:4px solid #FFD700;border-radius:0 12px 12px 0;padding:24px 20px;">
+        <div style="font-size:28px;margin-bottom:12px;">🏠</div>
+        <div style="font-family:'Bangers',cursive;font-size:20px;color:#FFD700;margin-bottom:8px;letter-spacing:0.5px;">Comodidad Total</div>
+        <p style="font-size:13px;color:#999;line-height:1.6;">En la comodidad de tu hogar. Sin trancones ni gastos innecesarios de transporte.</p>
+      </div>
+      <div style="background:#1a1a1a;border-left:4px solid #FFD700;border-radius:0 12px 12px 0;padding:24px 20px;">
+        <div style="font-size:28px;margin-bottom:12px;">🔄</div>
+        <div style="font-family:'Bangers',cursive;font-size:20px;color:#FFD700;margin-bottom:8px;letter-spacing:0.5px;">Continuidad</div>
+        <p style="font-size:13px;color:#999;line-height:1.6;">Continuidad en el proceso al evitar desplazamientos incómodos para padres con ocupaciones.</p>
+      </div>
+      <div style="background:#1a1a1a;border-left:4px solid #FFD700;border-radius:0 12px 12px 0;padding:24px 20px;">
+        <div style="font-size:28px;margin-bottom:12px;">🎯</div>
+        <div style="font-family:'Bangers',cursive;font-size:20px;color:#FFD700;margin-bottom:8px;letter-spacing:0.5px;">Trabajo Personalizado</div>
+        <p style="font-size:13px;color:#999;line-height:1.6;">Adaptado a las necesidades del estudiante. Se aprovecha el 100% de la sesión y los resultados se evidencian más rápido.</p>
+      </div>
+      <div style="background:#1a1a1a;border-left:4px solid #FFD700;border-radius:0 12px 12px 0;padding:24px 20px;">
+        <div style="font-size:28px;margin-bottom:12px;">🤝</div>
+        <div style="font-family:'Bangers',cursive;font-size:20px;color:#FFD700;margin-bottom:8px;letter-spacing:0.5px;">Atentos a tu Institución</div>
+        <p style="font-size:13px;color:#999;line-height:1.6;">Nos adaptamos a los requerimientos del colegio a través de seguimiento y comunicación constante.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:60px;background:#FFD700;border-radius:20px;padding:48px 32px;max-width:700px;margin:60px auto 0;">
+    <h3 style="font-family:'Bangers',cursive;font-size:clamp(28px,4vw,46px);color:#111;letter-spacing:1px;margin-bottom:12px;line-height:1.1;">¡Agenda Ahora tu Terapia<br>en Casa con Expertos!</h3>
+    <p style="font-size:15px;color:#444;margin-bottom:28px;line-height:1.6;">Profesionales certificados van hasta tu hogar.<br>Atención 100% personalizada para tu hijo.</p>
+    <a href="https://wa.me/573213204588?text=Hola!%20Quisiera%20información%20sobre%20las%20terapias%20a%20domicilio" target="_blank" style="background:#111;color:#FFD700;font-weight:900;font-size:16px;padding:16px 38px;border-radius:8px;text-decoration:none;display:inline-block;transition:transform 0.15s;">
+      💬 Agendar por WhatsApp
+    </a>
+  </div>
+</section>
+
+<style>
+.terapia-card:hover { border-color: #FFD700 !important; transform: translateY(-4px); }
+</style>
+
+<!-- SOCIAL MEDIA BAR -->
+<div style="background:#0a0a0a;padding:48px 5%;text-align:center;border-top:1px solid #222;">
+  <p style="font-size:12px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:24px;">Síguenos en redes</p>
+  <div style="display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;">
+    <a href="https://www.facebook.com/misselyprogram/" target="_blank" title="Facebook" style="width:52px;height:52px;border-radius:50%;border:1.5px solid #2e2e2e;display:flex;align-items:center;justify-content:center;transition:border-color 0.2s,transform 0.2s;text-decoration:none;" onmouseover="this.style.borderColor='#FFD700';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='#2e2e2e';this.style.transform='translateY(0)'">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="#aaaaaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="https://www.instagram.com/misselyprogram?igsh=MXVveXg4Nm95dTZueQ%3D%3D&utm_source=qr" target="_blank" title="Instagram" style="width:52px;height:52px;border-radius:50%;border:1.5px solid #2e2e2e;display:flex;align-items:center;justify-content:center;transition:border-color 0.2s,transform 0.2s;text-decoration:none;" onmouseover="this.style.borderColor='#FFD700';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='#2e2e2e';this.style.transform='translateY(0)'">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#aaaaaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 11.37C16.1234 12.2022 15.9813 13.0522 15.5938 13.799C15.2063 14.5458 14.5931 15.1514 13.8416 15.5297C13.0901 15.9079 12.2384 16.0396 11.4078 15.9059C10.5771 15.7723 9.80976 15.3801 9.21484 14.7852C8.61992 14.1902 8.22773 13.4229 8.09406 12.5922C7.9604 11.7615 8.09206 10.9099 8.47032 10.1584C8.84858 9.40685 9.45418 8.79374 10.201 8.40624C10.9478 8.01874 11.7978 7.87658 12.63 8C13.4789 8.12588 14.2648 8.52146 14.8717 9.1283C15.4785 9.73515 15.8741 10.5211 16 11.37Z" stroke="#aaaaaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.5 6.5H17.51" stroke="#aaaaaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="https://www.tiktok.com/@misselyprogram" target="_blank" title="TikTok" style="width:52px;height:52px;border-radius:50%;border:1.5px solid #2e2e2e;display:flex;align-items:center;justify-content:center;transition:border-color 0.2s,transform 0.2s;text-decoration:none;" onmouseover="this.style.borderColor='#FFD700';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='#2e2e2e';this.style.transform='translateY(0)'">
+      <svg width="20" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12C7.34315 12 6 13.3431 6 15C6 16.6569 7.34315 18 9 18C10.6569 18 12 16.6569 12 15V3C12.6667 5 14.4 9 18 9" stroke="#aaaaaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="https://wa.me/573213204588" target="_blank" title="WhatsApp" style="width:52px;height:52px;border-radius:50%;border:1.5px solid #2e2e2e;display:flex;align-items:center;justify-content:center;transition:border-color 0.2s,transform 0.2s;text-decoration:none;" onmouseover="this.style.borderColor='#FFD700';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='#2e2e2e';this.style.transform='translateY(0)'">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="#aaaaaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+  <div style="margin-top:24px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+    <a href="https://www.facebook.com/misselyprogram/" target="_blank" style="font-size:12px;color:#555;text-decoration:none;font-weight:700;transition:color 0.2s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#555'">@misselyprogram</a>
+    <span style="color:#333;">·</span>
+    <a href="https://www.instagram.com/misselyprogram" target="_blank" style="font-size:12px;color:#555;text-decoration:none;font-weight:700;transition:color 0.2s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#555'">@misselyprogram</a>
+    <span style="color:#333;">·</span>
+    <a href="https://www.tiktok.com/@misselyprogram" target="_blank" style="font-size:12px;color:#555;text-decoration:none;font-weight:700;transition:color 0.2s;" onmouseover="this.style.color='#FFD700'" onmouseout="this.style.color='#555'">@misselyprogram</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">MISS ELY PROGRAM</div>
+  <p>© 2025 Miss Ely Program · Bogotá, Colombia<br>Formación académica y desarrollo personal de la mano.</p>
+  <ul class="footer-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proceso">Cómo funciona</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════
+     WHATSAPP FLOATING WIDGET
+════════════════════════════════════════════════════ -->
+<div id="wa-widget">
+
+  <!-- Tarjeta expandible -->
+  <div id="wa-card">
+    <!-- Header -->
+    <div class="wa-card-header">
+      <div class="wa-card-avatar">💛</div>
+      <div class="wa-card-info">
+        <div class="wa-card-name">Miss Ely Program</div>
+        <div class="wa-card-status">En línea ahora</div>
+      </div>
+      <button class="wa-card-close" id="wa-card-close" aria-label="Cerrar">✕</button>
+    </div>
+
+    <!-- Cuerpo: burbuja de mensaje -->
+    <div class="wa-card-body">
+      <div id="wa-typing-indicator" class="wa-typing">
+        <span></span><span></span><span></span>
+      </div>
+      <div id="wa-message-bubble" class="wa-bubble" style="display:none;">
+        ¡Hola! 👋 Soy Milena de <strong>Miss Ely Program</strong>.<br><br>
+        ¿Quieres una <strong>asesoría gratuita</strong> para tu hijo/a? Estamos listos para ayudarte 💛
+        <div class="wa-bubble-time" id="wa-time"></div>
+      </div>
+    </div>
+
+    <!-- Footer: botón de acción -->
+    <div class="wa-card-footer">
+      <a
+        href="https://wa.me/573213204588?text=Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Miss%20Ely%20Program%20%F0%9F%92%9B"
+        target="_blank"
+        class="wa-start-btn"
+        id="wa-start-btn"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.88 11.9L4 20l4.2-1.1A7.93 7.93 0 0 0 12.04 20h.01a7.94 7.94 0 0 0 7.94-7.94 7.88 7.88 0 0 0-2.39-5.74zm-5.56 12.21h-.01a6.59 6.59 0 0 1-3.36-.92l-.24-.14-2.5.65.67-2.43-.16-.25a6.59 6.59 0 1 1 5.6 3.09zm3.62-4.94c-.2-.1-1.17-.58-1.35-.64-.18-.07-.31-.1-.44.1-.13.2-.5.64-.62.77-.11.13-.23.15-.43.05a5.44 5.44 0 0 1-1.6-.99 6.01 6.01 0 0 1-1.11-1.38c-.12-.2-.01-.3.09-.4.09-.09.2-.24.3-.35.1-.12.13-.2.2-.33.06-.14.03-.26-.02-.36-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.34h-.38c-.13 0-.34.05-.52.25s-.68.67-.68 1.62.7 1.88.8 2.01c.1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.41.47.15.9.13 1.23.08.38-.06 1.16-.47 1.33-.93.16-.46.16-.85.11-.93-.05-.09-.18-.14-.38-.24z"/>
+        </svg>
+        Iniciar conversación
+      </a>
+      <p class="wa-privacy">🔒 Chatea directamente con nuestro equipo</p>
+    </div>
+  </div>
+
+  <!-- Burbuja de notificación (visible antes de abrir) -->
+  <div id="wa-notif-bubble">
+    💬 ¡Te respondemos en <span class="highlight">minutos</span>!
+  </div>
+
+  <!-- Botón principal flotante -->
+  <button id="wa-btn" aria-label="Abrir WhatsApp">
+    <div class="wa-icon-wrap" id="wa-icon-wrap">
+      <!-- Ícono WhatsApp -->
+      <svg id="icon-wa" width="32" height="32" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4a7.94 7.94 0 0 0-6.88 11.9L4 20l4.2-1.1A7.93 7.93 0 0 0 12.04 20h.01a7.94 7.94 0 0 0 7.94-7.94 7.88 7.88 0 0 0-2.39-5.74zm-5.56 12.21h-.01a6.59 6.59 0 0 1-3.36-.92l-.24-.14-2.5.65.67-2.43-.16-.25a6.59 6.59 0 1 1 5.6 3.09zm3.62-4.94c-.2-.1-1.17-.58-1.35-.64-.18-.07-.31-.1-.44.1-.13.2-.5.64-.62.77-.11.13-.23.15-.43.05a5.44 5.44 0 0 1-1.6-.99 6.01 6.01 0 0 1-1.11-1.38c-.12-.2-.01-.3.09-.4.09-.09.2-.24.3-.35.1-.12.13-.2.2-.33.06-.14.03-.26-.02-.36-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.34h-.38c-.13 0-.34.05-.52.25s-.68.67-.68 1.62.7 1.88.8 2.01c.1.13 1.37 2.1 3.33 2.94.46.2.83.32 1.11.41.47.15.9.13 1.23.08.38-.06 1.16-.47 1.33-.93.16-.46.16-.85.11-.93-.05-.09-.18-.14-.38-.24z"/>
+      </svg>
+      <!-- Ícono cerrar (oculto por defecto) -->
+      <svg id="icon-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg" style="display:none;position:absolute;">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </div>
+    <!-- Badge de notificación -->
+    <div id="wa-badge">1</div>
+  </button>
+
+</div><!-- fin #wa-widget -->
+
+
+<script>
+  // ── Nav scroll active ──
+  const sections = document.querySelectorAll('section[id], div[id]');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY + 80;
+    sections.forEach(sec => {
+      if (sec.offsetTop <= y && sec.offsetTop + sec.offsetHeight > y) {
+        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`.nav-links a[href="#${sec.id}"]`);
+        if (link) link.style.color = '#FFD700';
+      }
+    });
+  });
+
+  // ── Entrance animations ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.service-card, .step, .porque-item, .bil-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+
+
+  // ═══════════════════════════════════════════════
+  //  WHATSAPP WIDGET LOGIC
+  // ═══════════════════════════════════════════════
+  (function() {
+    const btn        = document.getElementById('wa-btn');
+    const card       = document.getElementById('wa-card');
+    const closeBtn   = document.getElementById('wa-card-close');
+    const badge      = document.getElementById('wa-badge');
+    const notifBubble= document.getElementById('wa-notif-bubble');
+    const typing     = document.getElementById('wa-typing-indicator');
+    const msgBubble  = document.getElementById('wa-message-bubble');
+    const timeEl     = document.getElementById('wa-time');
+    const iconWA     = document.getElementById('icon-wa');
+    const iconClose  = document.getElementById('icon-close');
+
+    let isOpen = false;
+    let messagePlayed = false;
+
+    // Formatear hora actual
+    function getTime() {
+      const now = new Date();
+      return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    }
+
+    // Mostrar burbuja de notificación después de 3s
+    setTimeout(() => {
+      notifBubble.classList.add('visible');
+    }, 3000);
+
+    // Ocultar burbuja al hacer clic en ella
+    notifBubble.addEventListener('click', () => {
+      openCard();
+    });
+
+    function openCard() {
+      if (isOpen) return;
+      isOpen = true;
+      card.classList.add('open');
+      btn.classList.add('is-open');
+      badge.classList.add('hidden');
+      notifBubble.classList.remove('visible');
+      iconWA.style.display = 'none';
+      iconClose.style.display = 'block';
+
+      // Animación: typing → mensaje
+      if (!messagePlayed) {
+        messagePlayed = true;
+        timeEl.textContent = getTime();
+        typing.style.display = 'flex';
+        msgBubble.style.display = 'none';
+
+        setTimeout(() => {
+          typing.style.display = 'none';
+          msgBubble.style.display = 'block';
+        }, 1600);
+      }
+    }
+
+    function closeCard() {
+      isOpen = false;
+      card.classList.remove('open');
+      btn.classList.remove('is-open');
+      iconWA.style.display = 'block';
+      iconClose.style.display = 'none';
+    }
+
+    btn.addEventListener('click', () => {
+      if (isOpen) {
+        closeCard();
+      } else {
+        openCard();
+      }
+    });
+
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeCard();
+    });
+
+    // Cerrar al hacer clic fuera del widget
+    document.addEventListener('click', (e) => {
+      if (isOpen && !document.getElementById('wa-widget').contains(e.target)) {
+        closeCard();
+      }
+    });
+
+  })();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     ANIMATION SYSTEM — Miss Ely Program
+     · Custom cursor + follower
+     · Animate on scroll (fade-up, fade-left, fade-right, zoom)
+     · Number counter for metrics
+     · Marquee carousel for non-clickable items
+     · Smooth text & button hover effects
+     · Title split-letter entrance
+════════════════════════════════════════════════════════════ -->
+<style>
+/* ── Cursor personalizado — lápiz + estrella ── */
+#cursor-dot {
+  width: 28px; height: 28px;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-4px, -24px);
+  transition: transform 0.08s ease;
+  font-size: 22px;
+  line-height: 1;
+  user-select: none;
+}
+#cursor-dot::after {
+  content: '✏️';
+  display: block;
+}
+
+#cursor-follower {
+  width: 24px; height: 24px;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(10px, -8px);
+  transition: left 0.14s ease, top 0.14s ease, opacity 0.3s ease;
+  font-size: 16px;
+  line-height: 1;
+  user-select: none;
+}
+#cursor-follower::after {
+  content: '⭐';
+  display: block;
+  animation: star-spin 3s linear infinite;
+}
+@keyframes star-spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.3); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Estado hover sobre botones/links */
+body.cursor-hover #cursor-dot {
+  transform: translate(-4px, -24px) scale(1.3);
+}
+body.cursor-hover #cursor-follower {
+  font-size: 22px;
+}
+
+/* Ocultar cursor en móvil */
+@media (hover: none) {
+  #cursor-dot, #cursor-follower { display: none; }
+}
+
+/* ── Animate on scroll — estados base ── */
+.aos-fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.aos-fade-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.aos-fade-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.aos-zoom {
+  opacity: 0;
+  transform: scale(0.88);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.aos-in {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Delays encadenados */
+.aos-delay-1 { transition-delay: 0.1s; }
+.aos-delay-2 { transition-delay: 0.2s; }
+.aos-delay-3 { transition-delay: 0.3s; }
+.aos-delay-4 { transition-delay: 0.4s; }
+.aos-delay-5 { transition-delay: 0.55s; }
+
+/* ── Split title: letras ── */
+.split-title .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(60px) rotate(4deg);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.4,0.64,1);
+}
+.split-title.aos-in .char {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+/* ── Contadores numéricos ── */
+.counter-num { display: inline-block; }
+
+/* ── Hover en botones primarios ── */
+.btn-primary, .btn-black, .wa-start-btn, .nav-cta {
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after,
+.btn-black::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.18);
+  transform: translateX(-110%) skewX(-20deg);
+  transition: transform 0.4s ease;
+  pointer-events: none;
+}
+.btn-primary:hover::after,
+.btn-black:hover::after {
+  transform: translateX(110%) skewX(-20deg);
+}
+
+/* ── Hover cards mejorado ── */
+.service-card, .bil-card, .terapia-card {
+  transition: border-color 0.25s, transform 0.3s cubic-bezier(0.34,1.3,0.64,1),
+              box-shadow 0.3s ease, background 0.25s !important;
+}
+.service-card:hover {
+  box-shadow: 0 16px 48px rgba(255,215,0,0.15) !important;
+}
+.bil-card:hover, .terapia-card:hover {
+  box-shadow: 0 12px 40px rgba(255,215,0,0.12) !important;
+}
+
+/* ── Nav link underline deslizante ── */
+.nav-links a {
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 2px;
+  background: var(--yellow);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover::after { width: 100%; }
+
+/* ── Carrusel marquee — colegios badges ── */
+.marquee-track {
+  display: flex;
+  gap: 16px;
+  animation: marquee-scroll 22s linear infinite;
+  white-space: nowrap;
+  width: max-content;
+}
+.marquee-wrap {
+  overflow: hidden;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-wrap:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ── Stat number glow on entrance ── */
+.stat .num, .pq-num {
+  display: inline-block;
+  transition: text-shadow 0.4s ease;
+}
+.stat-glow .num, .pq-glow .pq-num {
+  text-shadow: 0 0 24px rgba(255,215,0,0.6);
+  animation: num-pop 0.5s cubic-bezier(0.34,1.6,0.64,1) both;
+}
+@keyframes num-pop {
+  0%   { transform: scale(0.7); }
+  100% { transform: scale(1); }
+}
+
+/* ── Step numbers ── */
+.step-num {
+  transition: transform 0.3s cubic-bezier(0.34,1.5,0.64,1), background 0.3s;
+}
+.step:hover .step-num {
+  transform: scale(1.12) rotate(-5deg);
+  background: #FFD700;
+  color: #111 !important;
+}
+
+/* ── Porque icon bounce ── */
+.porque-icon {
+  transition: transform 0.3s cubic-bezier(0.34,1.6,0.64,1);
+}
+.porque-item:hover .porque-icon {
+  transform: scale(1.18) rotate(-8deg);
+}
+
+/* ── Hero badge pulse ── */
+.hero-badge {
+  animation: badge-pulse 3s ease-in-out infinite;
+}
+@keyframes badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.5); }
+  50%       { box-shadow: 0 0 0 10px rgba(255,215,0,0); }
+}
+
+/* ── Svc icon spin on hover ── */
+.svc-icon {
+  transition: transform 0.4s cubic-bezier(0.34,1.5,0.64,1);
+}
+.service-card:hover .svc-icon {
+  transform: rotate(-10deg) scale(1.15);
+}
+
+/* ── Hero stats entrance ── */
+.hero-stats .stat {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.hero-stats.stats-in .stat {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.34,1.4,0.64,1);
+}
+.hero-stats.stats-in .stat:nth-child(1) { transition-delay: 0.1s; }
+.hero-stats.stats-in .stat:nth-child(2) { transition-delay: 0.25s; }
+.hero-stats.stats-in .stat:nth-child(3) { transition-delay: 0.4s; }
+
+/* ── Chip hover ── */
+.chip {
+  transition: transform 0.2s cubic-bezier(0.34,1.6,0.64,1), box-shadow 0.2s;
+  cursor: default;
+}
+.chip:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+
+/* ── Colegio badge hover ── */
+.colegio-badge {
+  transition: transform 0.2s cubic-bezier(0.34,1.6,0.64,1), box-shadow 0.2s;
+  cursor: default;
+}
+.colegio-badge:hover {
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ── Parallax hero subtle ── */
+#hero { background-attachment: fixed; }
+
+/* ── Section label bounce-in ── */
+.section-label {
+  animation: none;
+}
+.section-label.label-animate {
+  animation: label-bounce 0.5s cubic-bezier(0.34,1.8,0.64,1) both;
+}
+@keyframes label-bounce {
+  0%   { transform: scale(0) rotate(-5deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg);  opacity: 1; }
+}
+</style>
+
+<!-- Cursor elements -->
+<div id="cursor-dot"></div>
+<div id="cursor-follower"></div>
+
+<script>
+(function() {
+
+  /* ─────────────────────────────────────
+     1. CURSOR PERSONALIZADO CON FOLLOWER
+  ───────────────────────────────────── */
+  const dot      = document.getElementById('cursor-dot');
+  const follower = document.getElementById('cursor-follower');
+
+  // Solo desktop
+  if (window.matchMedia('(hover: hover)').matches) {
+    let fx = 0, fy = 0;   // follower position
+    let mx = 0, my = 0;   // mouse position
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
+    });
+
+    // Follower con lag suave
+    (function animateFollower() {
+      fx += (mx - fx) * 0.13;
+      fy += (my - fy) * 0.13;
+      follower.style.left = fx + 'px';
+      follower.style.top  = fy + 'px';
+      requestAnimationFrame(animateFollower);
+    })();
+
+    // Hover state en interactivos
+    const hoverTargets = 'a, button, .service-card, .bil-card, .terapia-card, .colegio-badge, .chip, .step';
+    document.querySelectorAll(hoverTargets).forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    // Ocultar al salir de la ventana
+    document.addEventListener('mouseleave', () => {
+      dot.style.opacity = '0';
+      follower.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+      dot.style.opacity = '1';
+      follower.style.opacity = '1';
+    });
+  }
+
+
+  /* ─────────────────────────────────────
+     2. ANIMATE ON SCROLL
+  ───────────────────────────────────── */
+  const aosObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        el.classList.add('aos-in');
+        // Section labels
+        el.querySelectorAll('.section-label').forEach(lbl => {
+          lbl.classList.add('label-animate');
+        });
+        aosObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.aos-fade-up, .aos-fade-left, .aos-fade-right, .aos-zoom, .split-title').forEach(el => {
+    aosObserver.observe(el);
+  });
+
+
+  /* ─────────────────────────────────────
+     3. SPLIT TITLE — dividir en letras
+  ───────────────────────────────────── */
+  function splitChars(el) {
+    const text = el.innerHTML;
+    // Preserve <br> and <span> tags, only split plain text nodes
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = text;
+
+    function processNode(node) {
+      if (node.nodeType === 3) { // text node
+        const frag = document.createDocumentFragment();
+        [...node.textContent].forEach((ch, i) => {
+          const span = document.createElement('span');
+          span.className = 'char';
+          span.textContent = ch === ' ' ? '\u00A0' : ch;
+          span.style.transitionDelay = (i * 0.035) + 's';
+          frag.appendChild(span);
+        });
+        node.parentNode.replaceChild(frag, node);
+      } else if (node.nodeType === 1 && node.tagName !== 'SPAN') {
+        [...node.childNodes].forEach(processNode);
+      }
+    }
+    [...wrapper.childNodes].forEach(processNode);
+    el.innerHTML = wrapper.innerHTML;
+  }
+
+  document.querySelectorAll('.split-title').forEach(splitChars);
+
+
+  /* ─────────────────────────────────────
+     4. NÚMERO CONTADOR ANIMADO
+  ───────────────────────────────────── */
+  function animateCounter(el, target, duration, prefix, suffix) {
+    const startTime = performance.now();
+    const isFloat = target % 1 !== 0;
+
+    function update(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = eased * target;
+      el.textContent = prefix + (isFloat ? current.toFixed(1) : Math.round(current)) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const raw = el.dataset.count;         // "1600"
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        animateCounter(el, parseFloat(raw), 1600, prefix, suffix);
+
+        // Glow en stat padre
+        const statParent = el.closest('.stat');
+        if (statParent) statParent.classList.add('stat-glow');
+        const pqParent = el.closest('.pq-card');
+        if (pqParent) pqParent.classList.add('pq-glow');
+
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  // Marcar elementos con contadores
+  const counterMap = [
+    { selector: '.stat .num', configs: [
+      { text: '+1.600', count: 1600, prefix: '+', suffix: '' },
+      { text: '+10',    count: 10,   prefix: '+', suffix: '' },
+      { text: '100%',   count: 100,  prefix: '',  suffix: '%' },
+    ]},
+    { selector: '.pq-num', configs: [
+      { text: '+1.600', count: 1600, prefix: '+', suffix: '' },
+      { text: '+10',    count: 10,   prefix: '+', suffix: '' },
+      { text: '100%',   count: 100,  prefix: '',  suffix: '%' },
+      { text: '24/7',   count: null, prefix: '',  suffix: '' },
+    ]},
+  ];
+
+  // Auto-detect counter elements por contenido
+  document.querySelectorAll('.stat .num, .pq-num').forEach(el => {
+    const txt = el.textContent.trim();
+    let count = null, prefix = '', suffix = '';
+    if (txt.startsWith('+') && !txt.includes('/')) {
+      prefix = '+';
+      count = parseFloat(txt.replace(/[^0-9.]/g, ''));
+    } else if (txt.endsWith('%')) {
+      suffix = '%';
+      count = parseFloat(txt);
+    }
+    if (count !== null) {
+      el.dataset.count  = count;
+      el.dataset.prefix = prefix;
+      el.dataset.suffix = suffix;
+      el.textContent = prefix + '0' + suffix;
+      el.classList.add('counter-num');
+      counterObserver.observe(el);
+    }
+  });
+
+
+  /* ─────────────────────────────────────
+     5. HERO STATS ENTRANCE
+  ───────────────────────────────────── */
+  const heroStats = document.querySelector('.hero-stats');
+  if (heroStats) {
+    const heroObs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        heroStats.classList.add('stats-in');
+        heroObs.disconnect();
+      }
+    }, { threshold: 0.3 });
+    heroObs.observe(heroStats);
+  }
+
+
+  /* ─────────────────────────────────────
+     6. MARQUEE CAROUSEL — colegios badges
+  ───────────────────────────────────── */
+  const colegiosSection = document.getElementById('colegios');
+  if (colegiosSection) {
+    const badgesContainer = colegiosSection.querySelector('.colegios-badges');
+    if (badgesContainer) {
+      // Clonar badges para loop infinito
+      const original = badgesContainer.innerHTML;
+      // Crear estructura marquee
+      const marqueeWrap = document.createElement('div');
+      marqueeWrap.className = 'marquee-wrap';
+      const track = document.createElement('div');
+      track.className = 'marquee-track';
+      // Duplicar 3 veces para loop suave
+      track.innerHTML = original + original + original;
+      marqueeWrap.appendChild(track);
+
+      // Reemplazar
+      badgesContainer.style.display = 'none';
+      badgesContainer.insertAdjacentElement('afterend', marqueeWrap);
+    }
+  }
+
+
+  /* ─────────────────────────────────────
+     7. APLICAR AOS CLASES al HTML existente
+  ───────────────────────────────────── */
+
+  // Hero content
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    const badge = heroContent.querySelector('.hero-badge');
+    const h1    = heroContent.querySelector('h1');
+    const p     = heroContent.querySelector('p');
+    const btns  = heroContent.querySelector('.hero-btns');
+    if (badge) { badge.classList.add('aos-fade-up'); }
+    if (h1)    { h1.classList.add('aos-fade-up', 'aos-delay-1'); }
+    if (p)     { p.classList.add('aos-fade-up', 'aos-delay-2'); }
+    if (btns)  { btns.classList.add('aos-fade-up', 'aos-delay-3'); }
+    [badge, h1, p, btns].filter(Boolean).forEach(el => aosObserver.observe(el));
+  }
+
+  // Section labels
+  document.querySelectorAll('.section-label').forEach((el, i) => {
+    if (!el.classList.contains('aos-fade-up')) {
+      el.classList.add('aos-zoom', 'aos-delay-1');
+      aosObserver.observe(el);
+    }
+  });
+
+  // Section titles
+  document.querySelectorAll('.section-title').forEach(el => {
+    el.classList.add('split-title', 'aos-fade-up');
+    splitChars(el);
+    aosObserver.observe(el);
+  });
+
+  // Section subs
+  document.querySelectorAll('.section-sub').forEach((el, i) => {
+    el.classList.add('aos-fade-up', 'aos-delay-2');
+    aosObserver.observe(el);
+  });
+
+  // Service cards
+  document.querySelectorAll('.service-card').forEach((el, i) => {
+    el.classList.remove('aos-fade-up'); // clear previous
+    el.classList.add('aos-fade-up', `aos-delay-${Math.min(i % 3 + 1, 5)}`);
+    aosObserver.observe(el);
+  });
+
+  // Steps
+  document.querySelectorAll('.step').forEach((el, i) => {
+    el.classList.add('aos-zoom', `aos-delay-${Math.min(i + 1, 5)}`);
+    aosObserver.observe(el);
+  });
+
+  // Porque items
+  document.querySelectorAll('.porque-item').forEach((el, i) => {
+    el.classList.add('aos-fade-left', `aos-delay-${Math.min(i + 1, 5)}`);
+    aosObserver.observe(el);
+  });
+
+  // Porque visual cards
+  document.querySelectorAll('.pq-card').forEach((el, i) => {
+    el.classList.add('aos-zoom', `aos-delay-${Math.min(i + 1, 5)}`);
+    aosObserver.observe(el);
+  });
+
+  // Bil cards
+  document.querySelectorAll('.bil-card').forEach((el, i) => {
+    el.classList.add('aos-fade-up', `aos-delay-${Math.min(i + 1, 5)}`);
+    aosObserver.observe(el);
+  });
+
+  // Terapia cards
+  document.querySelectorAll('.terapia-card').forEach((el, i) => {
+    el.classList.add('aos-zoom', `aos-delay-${Math.min(i + 1, 5)}`);
+    aosObserver.observe(el);
+  });
+
+  // Max section images
+  document.querySelectorAll('.max-images img').forEach((el, i) => {
+    el.classList.add('aos-fade-up', `aos-delay-${i + 1}`);
+    aosObserver.observe(el);
+  });
+
+  // Max content
+  const maxContent = document.querySelector('.max-content');
+  if (maxContent) {
+    maxContent.classList.add('aos-fade-right');
+    aosObserver.observe(maxContent);
+  }
+
+  // Services intro left
+  const servIntroLeft = document.querySelector('.services-intro > div:first-child');
+  if (servIntroLeft) {
+    servIntroLeft.classList.add('aos-fade-right');
+    aosObserver.observe(servIntroLeft);
+  }
+
+  // Milena
+  const milenaVisual = document.querySelector('.milena-visual');
+  const milenaText   = document.querySelector('.milena-text');
+  if (milenaVisual) { milenaVisual.classList.add('aos-zoom'); aosObserver.observe(milenaVisual); }
+  if (milenaText)   { milenaText.classList.add('aos-fade-left', 'aos-delay-2'); aosObserver.observe(milenaText); }
+
+  // Contacto
+  const ctaH2 = document.querySelector('#contacto h2');
+  const ctaP  = document.querySelector('#contacto p');
+  const ctaBtns = document.querySelector('.contact-btns');
+  if (ctaH2)   { ctaH2.classList.add('aos-zoom');           aosObserver.observe(ctaH2); }
+  if (ctaP)    { ctaP.classList.add('aos-fade-up', 'aos-delay-2'); aosObserver.observe(ctaP); }
+  if (ctaBtns) { ctaBtns.classList.add('aos-fade-up', 'aos-delay-3'); aosObserver.observe(ctaBtns); }
+
+  // Terapias beneficios cards
+  document.querySelectorAll('#terapias [style*="border-left"]').forEach((el, i) => {
+    el.classList.add('aos-fade-up', `aos-delay-${Math.min(i + 1, 5)}`);
+    aosObserver.observe(el);
+  });
+
+})();
+</script>
+</body>
+</html>
