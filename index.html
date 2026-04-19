@@ -69,8 +69,46 @@
 
   .nav-links { display: flex; gap: 32px; list-style: none; }
   .nav-hamburger { display: none; }
-  .nav-mobile-menu { visibility: hidden; opacity: 0; pointer-events: none; }
-  .nav-overlay { display: none; }
+
+  /* ── OVERLAY ── */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .nav-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+
+  /* ── MOBILE DRAWER ── */
+  .nav-mobile-menu {
+    position: fixed;
+    top: 0; right: 0;
+    width: min(340px, 88vw);
+    height: 100dvh;
+    background: rgba(17, 17, 17, 0.92);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-left: 1px solid rgba(255, 215, 0, 0.2);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
+    will-change: transform;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .nav-mobile-menu.open {
+    transform: translateX(0);
+  }
 
   .nav-links a {
     color: var(--black);
@@ -1077,86 +1115,102 @@
       cursor: pointer;
       background: none;
       border: none;
-      padding: 6px;
+      padding: 8px;
       z-index: 1001;
       position: relative;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .nav-hamburger span {
       display: block;
-      width: 28px;
-      height: 3px;
+      width: 26px;
+      height: 2.5px;
       background: var(--yellow);
       border-radius: 3px;
-      transition: transform 0.3s ease, opacity 0.2s ease;
+      transition: transform 0.35s cubic-bezier(0.32,0.72,0,1), opacity 0.25s ease;
       transform-origin: center;
     }
     .nav-hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
     .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .nav-hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-    /* ── PANEL FLOTANTE — todos los 6 items visibles de una vez ── */
-    .nav-mobile-menu {
-      position: fixed !important;
-      top: 68px !important;
-      right: 16px !important;
-      left: auto !important;
-      bottom: auto !important;
-      width: 240px !important;
-      height: auto !important;
-      background: #ffffff !important;
-      border-radius: 16px !important;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.22) !important;
-      z-index: 1000 !important;
-      overflow: visible !important;
-      /* Oculto por defecto */
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-      transform: scale(0.95) translateY(-8px) !important;
-      transform-origin: top right !important;
-      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s !important;
+    /* ── MOBILE DRAWER CONTENT STYLES ── */
+    .mobile-menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(255,215,0,0.15);
     }
-    .nav-mobile-menu.open {
-      opacity: 1 !important;
-      visibility: visible !important;
-      pointer-events: all !important;
-      transform: scale(1) translateY(0) !important;
+    .mobile-menu-close {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
-    .nav-mobile-menu ul {
-      list-style: none !important;
-      padding: 6px 0 !important;
-      margin: 0 !important;
-      display: flex !important;
-      flex-direction: column !important;
+    .mobile-menu-close:active { background: rgba(255,215,0,0.15); }
+    .mobile-menu-links {
+      list-style: none;
+      padding: 8px 0;
+      flex: 0 0 auto;
     }
-    .nav-mobile-menu ul li {
-      display: block !important;
+    .mobile-menu-bottom {
+      padding: 20px 24px 24px;
+      margin-top: 16px;
+      border-top: 1px solid rgba(255,215,0,0.1);
     }
-    .nav-mobile-menu a {
-      font-family: 'Nunito', sans-serif !important;
-      font-size: 15px !important;
-      font-weight: 700 !important;
-      color: #111111 !important;
-      text-decoration: none !important;
-      display: block !important;
-      padding: 14px 22px !important;
-      border-bottom: 1px solid #f0f0f0 !important;
-      transition: background 0.15s !important;
-      letter-spacing: 0.2px !important;
+    .mobile-menu-links li a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .nav-mobile-menu ul li:last-child a {
-      border-bottom: none !important;
-      background: var(--yellow) !important;
-      color: #111 !important;
-      font-weight: 900 !important;
-      text-align: center !important;
-      border-radius: 0 0 16px 16px !important;
+    .mobile-menu-links li a:active,
+    .mobile-menu-links li a.active {
+      background: rgba(255,215,0,0.08);
+      color: var(--yellow);
+      border-left-color: var(--yellow);
     }
-    .nav-mobile-menu a:hover {
-      background: #fffbe6 !important;
+    .mobile-menu-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 24px;
+      background: var(--yellow);
+      color: var(--black);
+      font-weight: 900;
+      font-size: 15px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      width: 100%;
+      box-sizing: border-box;
     }
-    .nav-mobile-menu ul li:last-child a:hover {
-      background: var(--yellow-dark) !important;
+    .mobile-menu-cta:active { background: var(--yellow-dark); transform: scale(0.97); }
+    .mobile-menu-footer {
+      padding: 14px 0 0;
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0.5px;
     }
 
     /* HERO */
@@ -1651,37 +1705,56 @@
 <body>
 
 <!-- NAV -->
-<nav>
+<nav id="main-nav">
   <div class="nav-brand">
-    <a href="#" class="nav-logo"><img src="img/logo.png" alt="Miss Ely Program" style="height:52px;width:auto;object-fit:contain;display:block;"></a>
-    <span class="nav-tagline">Your Academic Partner</span>
+    <a href="#hero" class="nav-logo">
+      <img src="img/logo.png" alt="Miss Ely Program" style="height:52px;">
+    </a>
   </div>
+
+  <!-- Desktop links -->
   <ul class="nav-links">
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#proceso">¿Cómo funciona?</a></li>
     <li><a href="#porque">¿Por qué nosotros?</a></li>
-    <li><a href="#bilingues">Colegios Bilingües</a></li>
+    <li><a href="#bilingues">Colegios</a></li>
     <li><a href="#terapias">Terapias</a></li>
     <li><a href="#contacto" class="nav-cta">Contáctanos</a></li>
   </ul>
 
-  <!-- Hamburger (mobile) -->
-  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menú">
+  <!-- Hamburger (mobile only) -->
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Abrir menú" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- Mobile menu — full screen black overlay -->
-<nav class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
-  <ul>
-    <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#proceso">¿Cómo funciona?</a></li>
-    <li><a href="#porque">¿Por qué nosotros?</a></li>
-    <li><a href="#bilingues">Colegios Bilingües</a></li>
-    <li><a href="#terapias">Terapias</a></li>
-    <li><a href="#contacto" class="nav-cta">Contáctanos</a></li>
+<!-- Overlay backdrop -->
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<!-- Mobile drawer menu -->
+<div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true" role="dialog">
+  <div class="mobile-menu-header">
+    <img src="img/logo.png" alt="Miss Ely Program" style="height:40px;filter:brightness(0) invert(1);">
+    <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Cerrar menú">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <ul class="mobile-menu-links">
+    <li><a href="#servicios" data-section="servicios">📚 Servicios</a></li>
+    <li><a href="#proceso" data-section="proceso">🔄 ¿Cómo funciona?</a></li>
+    <li><a href="#porque" data-section="porque">⭐ ¿Por qué nosotros?</a></li>
+    <li><a href="#bilingues" data-section="bilingues">🏫 Colegios Bilingües</a></li>
+    <li><a href="#terapias" data-section="terapias">🧠 Terapias</a></li>
   </ul>
-</nav>
+  <div class="mobile-menu-bottom">
+    <a href="https://wa.me/573213204588?text=Hola!%20Quiero%20una%20asesor%C3%ADa%20gratis%20para%20mi%20hijo%2Fa" target="_blank" rel="noopener noreferrer" class="mobile-menu-cta">
+      💬 Contáctanos por WhatsApp
+    </a>
+    <div class="mobile-menu-footer">
+      <span>© Miss Ely Program · Bogotá</span>
+    </div>
+  </div>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -2182,13 +2255,13 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-left">
-    <a href="#" class="footer-logo-img"><img src="img/logo.png" alt="Miss Ely Program" style="height:48px;width:auto;object-fit:contain;display:block;filter:brightness(0) invert(1);"></a>
+    <a href="#hero" class="footer-logo-img"><img src="img/logo.png" alt="Miss Ely Program" style="height:48px;width:auto;object-fit:contain;display:block;filter:brightness(0) invert(1);"></a>
     <div class="footer-academy">
       <span class="footer-by">by Miss Ely Academy</span>
       <span class="footer-partner">Your Academic Partner</span>
     </div>
   </div>
-  <p>© 2025 Miss Ely Program · Bogotá, Colombia<br>Formación académica y desarrollo personal de la mano.</p>
+  <p>© 2016 Miss Ely Program · Bogotá, Colombia<br>Formación académica y desarrollo personal de la mano.</p>
   <ul class="footer-links">
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#proceso">Cómo funciona</a></li>
@@ -2269,18 +2342,33 @@
 
 
 <script>
-  // ── Nav scroll active ──
-  const sections = document.querySelectorAll('section[id], div[id]');
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY + 80;
-    sections.forEach(sec => {
-      if (sec.offsetTop <= y && sec.offsetTop + sec.offsetHeight > y) {
-        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-        const link = document.querySelector(`.nav-links a[href="#${sec.id}"]`);
-        if (link) link.style.color = '#FFD700';
-      }
-    });
-  });
+  // ── Nav scroll active highlight ──
+  (function() {
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    const allSections = document.querySelectorAll('section[id]');
+
+    function setActive() {
+      const y = window.scrollY + 90;
+      let activeId = null;
+      allSections.forEach(sec => {
+        if (sec.offsetTop <= y && sec.offsetTop + sec.offsetHeight > y) {
+          activeId = sec.id;
+        }
+      });
+      navLinks.forEach(a => {
+        const href = a.getAttribute('href').replace('#', '');
+        if (href === activeId) {
+          a.style.color = 'var(--yellow)';
+          a.classList.add('active');
+        } else {
+          a.style.color = '';
+          a.classList.remove('active');
+        }
+      });
+    }
+    window.addEventListener('scroll', setActive, { passive: true });
+    setActive();
+  })();
 
   // ── Entrance animations ──
   const observer = new IntersectionObserver((entries) => {
@@ -2661,6 +2749,62 @@ body.cursor-hover #cursor-follower {
   0%   { transform: scale(0) rotate(-5deg); opacity: 0; }
   100% { transform: scale(1) rotate(0deg);  opacity: 1; }
 }
+
+/* ── Nav active link ── */
+.nav-links a.active {
+  color: var(--yellow) !important;
+}
+.nav-links a.active::after {
+  width: 100% !important;
+}
+
+/* ── Touch micro-animations for mobile CTAs ── */
+@media (hover: none) {
+  .btn-primary:active,
+  .btn-black:active,
+  .btn-outline:active {
+    transform: scale(0.96) translateY(1px) !important;
+    transition: transform 0.1s ease !important;
+  }
+  .svc-expand-btn:active {
+    transform: scale(0.94) !important;
+    transition: transform 0.1s ease !important;
+  }
+  .mobile-menu-links li a:active {
+    background: rgba(255,215,0,0.12) !important;
+  }
+}
+
+/* ── Better tap targets on mobile ── */
+@media (max-width: 768px) {
+  .btn-primary, .btn-black {
+    min-height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .btn-outline {
+    min-height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .contact-btns .btn-black {
+    width: auto;
+    min-width: 240px;
+  }
+  .hero-btns .btn-outline {
+    border-color: rgba(255,255,255,0.4);
+  }
+}
+
+/* ── Prevent CTA links looking broken without href ── */
+a[href="#"], a[href=""] {
+  pointer-events: auto;
+  cursor: pointer;
+}
 </style>
 
 <!-- Cursor elements -->
@@ -2669,6 +2813,7 @@ body.cursor-hover #cursor-follower {
 
 <script>
 (function() {
+'use strict';
 
   /* ─────────────────────────────────────
      1. CURSOR PERSONALIZADO CON FOLLOWER
@@ -2888,18 +3033,16 @@ body.cursor-hover #cursor-follower {
      7. APLICAR AOS CLASES al HTML existente
   ───────────────────────────────────── */
 
-  // Hero content
+  // Hero content — NO aplicar AOS a hero-btns para que siempre sean clickeables
   const heroContent = document.querySelector('.hero-content');
   if (heroContent) {
     const badge = heroContent.querySelector('.hero-badge');
     const h1    = heroContent.querySelector('h1');
     const p     = heroContent.querySelector('p');
-    const btns  = heroContent.querySelector('.hero-btns');
-    if (badge) { badge.classList.add('aos-fade-up'); }
-    if (h1)    { h1.classList.add('aos-fade-up', 'aos-delay-1'); }
-    if (p)     { p.classList.add('aos-fade-up', 'aos-delay-2'); }
-    if (btns)  { btns.classList.add('aos-fade-up', 'aos-delay-3'); }
-    [badge, h1, p, btns].filter(Boolean).forEach(el => aosObserver.observe(el));
+    // Nota: hero-btns NO lleva AOS para garantizar clicks funcionales
+    if (badge) { badge.classList.add('aos-fade-up'); aosObserver.observe(badge); }
+    if (h1)    { h1.classList.add('aos-fade-up', 'aos-delay-1'); aosObserver.observe(h1); }
+    if (p)     { p.classList.add('aos-fade-up', 'aos-delay-2'); aosObserver.observe(p); }
   }
 
   // Section labels
@@ -3002,76 +3145,28 @@ body.cursor-hover #cursor-follower {
 
 
   /* ─────────────────────────────────────
-     9. HAMBURGER MENU — MOBILE
-  ───────────────────────────────────── */
-  (function initHamburger() {
-    const hamburger  = document.getElementById('nav-hamburger');
-    const mobileMenu = document.getElementById('nav-mobile-menu');
-    if (!hamburger || !mobileMenu) return;
-
-    function openMenu() {
-      hamburger.classList.add('open');
-      mobileMenu.classList.add('open');
-      mobileMenu.setAttribute('aria-hidden', 'false');
-    }
-
-    function closeMenu() {
-      hamburger.classList.remove('open');
-      mobileMenu.classList.remove('open');
-      mobileMenu.setAttribute('aria-hidden', 'true');
-    }
-
-    hamburger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
-    });
-
-    // Close when clicking a link
-    mobileMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', closeMenu);
-    });
-
-    // Close when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
-        closeMenu();
-      }
-    });
-
-    // Close on Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMenu();
-    });
-  })();
-
-  /* ─────────────────────────────────────
      8. ACCORDION SERVICIOS — uno a la vez
   ───────────────────────────────────── */
   (function initAccordion() {
     const grid = document.querySelector('.services-grid');
     if (!grid) return;
-
-    const cards    = Array.from(grid.querySelectorAll('.service-card'));
-    const btnLabel = (btn, isOpen) => {
-      const lbl = btn.querySelector('.svc-expand-label');
-      if (lbl) lbl.textContent = isOpen ? 'Ocultar' : 'Ver detalles';
-      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    };
+    const cards = Array.from(grid.querySelectorAll('.service-card'));
 
     function closeCard(card) {
       card.classList.remove('expanded');
       const btn = card.querySelector('.svc-expand-btn');
-      if (btn) btnLabel(btn, false);
+      const lbl = btn && btn.querySelector('.svc-expand-label');
+      if (lbl) lbl.textContent = 'Ver detalles';
+      if (btn) btn.setAttribute('aria-expanded', 'false');
     }
 
     function openCard(card) {
-      // Cerrar todas las demás
       cards.forEach(c => { if (c !== card) closeCard(c); });
       card.classList.add('expanded');
       const btn = card.querySelector('.svc-expand-btn');
-      if (btn) btnLabel(btn, true);
-
-      // Scroll suave al card si está fuera de vista
+      const lbl = btn && btn.querySelector('.svc-expand-label');
+      if (lbl) lbl.textContent = 'Ocultar';
+      if (btn) btn.setAttribute('aria-expanded', 'true');
       setTimeout(() => {
         const rect = card.getBoundingClientRect();
         if (rect.top < 80 || rect.bottom > window.innerHeight - 20) {
@@ -3083,17 +3178,119 @@ body.cursor-hover #cursor-follower {
     cards.forEach(card => {
       const btn = card.querySelector('.svc-expand-btn');
       if (!btn) return;
-
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', e => {
         e.stopPropagation();
-        if (card.classList.contains('expanded')) {
-          closeCard(card);
-        } else {
-          openCard(card);
-        }
+        card.classList.contains('expanded') ? closeCard(card) : openCard(card);
       });
     });
   })();
+
+  /* ─────────────────────────────────────
+     9. HAMBURGER MENU — MOBILE
+  ───────────────────────────────────── */
+  (function initHamburger() {
+    const hamburger  = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('nav-mobile-menu');
+    const overlay    = document.getElementById('nav-overlay');
+    const closeBtn   = document.getElementById('mobile-menu-close');
+    if (!hamburger || !mobileMenu) return;
+
+    let menuOpen = false;
+    let savedScrollY = 0;
+
+    function openMenu() {
+      if (menuOpen) return;
+      menuOpen = true;
+      savedScrollY = window.scrollY;
+      hamburger.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      mobileMenu.classList.add('open');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      if (overlay) overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${savedScrollY}px`;
+      document.body.style.width = '100%';
+    }
+
+    function closeMenu() {
+      if (!menuOpen) return;
+      menuOpen = false;
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      if (overlay) overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, savedScrollY);
+    }
+
+    hamburger.addEventListener('click', e => { e.stopPropagation(); menuOpen ? closeMenu() : openMenu(); });
+    if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+    if (overlay)  overlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuOpen) closeMenu(); });
+
+    // Links internos: cerrar + scroll suave
+    mobileMenu.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        closeMenu();
+        if (target) {
+          setTimeout(() => {
+            window.scrollTo({ top: target.offsetTop - 72, behavior: 'smooth' });
+          }, 80);
+        }
+      });
+    });
+
+    // Link externo WhatsApp: asegurar que abre correctamente
+    mobileMenu.querySelectorAll('a[href^="https"]').forEach(link => {
+      link.addEventListener('click', e => {
+        closeMenu();
+        // No prevent default — dejar abrir normalmente
+      });
+    });
+
+    // Active link highlight on scroll
+    const pageSections = document.querySelectorAll('section[id]');
+    function updateMobileActive() {
+      const y = window.scrollY + 100;
+      pageSections.forEach(sec => {
+        const link = mobileMenu.querySelector(`a[data-section="${sec.id}"]`);
+        if (!link) return;
+        const active = sec.offsetTop <= y && sec.offsetTop + sec.offsetHeight > y;
+        link.classList.toggle('active', active);
+      });
+    }
+    window.addEventListener('scroll', updateMobileActive, { passive: true });
+    updateMobileActive();
+  })();
+
+  /* ─────────────────────────────────────
+     10. SMOOTH SCROLL — links internos
+  ───────────────────────────────────── */
+  // Solo aplica a links con href="#algo" que NO sean del menú mobile
+  // (el menú mobile tiene su propio handler arriba)
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    if (link.closest('#nav-mobile-menu')) return; // ya manejado
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#' || href === '#hero') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        window.scrollTo({ top: target.offsetTop - 72, behavior: 'smooth' });
+      }
+    });
+  });
 
 })();
 </script>
