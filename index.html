@@ -535,20 +535,27 @@
     background: var(--yellow);
     border-radius: 50%;
     flex-shrink: 0;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: var(--black);                /* currentColor del SVG = negro sobre amarillo */
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.25s ease, color 0.25s ease;
   }
 
-  .service-card.featured .svc-expand-icon {
-    background: var(--yellow);
-  }
-
+  /* Card normal expandida → fondo negro, flecha negra sobre amarillo */
   .service-card.expanded .svc-expand-icon {
     transform: rotate(180deg);
-    background: var(--black);
+    background: var(--yellow);
+    color: var(--black);
   }
 
-  .service-card.featured.expanded .svc-expand-icon {
+  /* Card featured (fondo negro cuando expanded) → misma lógica */
+  .service-card.featured .svc-expand-icon {
     background: var(--yellow);
+    color: var(--black);
+  }
+  .service-card.featured.expanded .svc-expand-icon {
+    transform: rotate(180deg);
+    background: var(--yellow);
+    color: var(--black);
   }
 
   .free-tag {
@@ -1821,7 +1828,7 @@
       <div class="svc-title">Refuerzo Todas las Áreas Bilingüe</div>
       <p class="svc-desc">Apoyamos a tus hijos en todas las materias, en español e inglés, trabajando de la mano con los colegios y sus plataformas institucionales.</p>
       <button class="svc-expand-btn" aria-expanded="false">
-        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
@@ -1837,7 +1844,7 @@
       <div class="svc-title">Clases Presenciales en tu Hogar</div>
       <p class="svc-desc">Nuestros tutores expertos llegan a tu casa para una enseñanza directa, personalizada y cómoda para toda la familia.</p>
       <button class="svc-expand-btn" aria-expanded="false">
-        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
@@ -1853,7 +1860,7 @@
       <div class="svc-title">Clases Virtuales Online</div>
       <p class="svc-desc">Aprende desde la comodidad del hogar con herramientas digitales de vanguardia y docentes bilingües altamente capacitados.</p>
       <button class="svc-expand-btn" aria-expanded="false">
-        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
@@ -1870,7 +1877,7 @@
       <div class="svc-title">Programa Hábitos de Estudio</div>
       <p class="svc-desc">Incluido en todos nuestros planes. Desarrollamos habilidades de aprendizaje que preparan a tus hijos para el éxito de por vida.</p>
       <button class="svc-expand-btn" aria-expanded="false">
-        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
@@ -1887,7 +1894,7 @@
       <div class="svc-title">Cartilla Proyecto Personal</div>
       <p class="svc-desc">Una guía completa para desarrollar la mejor versión en todas las áreas de la vida de tu hij@. Incluida en el programa.</p>
       <button class="svc-expand-btn" aria-expanded="false">
-        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
@@ -1903,7 +1910,7 @@
       <div class="svc-title">Alianza con tu Colegio</div>
       <p class="svc-desc">Nos coordinamos directamente con los colegios bilingües para complementar y reforzar el currículo institucional de manera efectiva.</p>
       <button class="svc-expand-btn" aria-expanded="false">
-        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
@@ -1919,7 +1926,7 @@
       <div class="svc-title">Certificados Oficiales</div>
       <p class="svc-desc">En Miss Ely Program 💛 no solo acompañamos el proceso académico… también emitimos certificados oficiales de clases y participación en el programa.</p>
       <button class="svc-expand-btn" aria-expanded="false">
-        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
@@ -1935,7 +1942,7 @@
       <div class="svc-title">Miss Ely Academy<br><small style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;letter-spacing:0;opacity:0.75;">Formación para docentes</small></div>
       <p class="svc-desc">Transforma tu forma de enseñar con estrategias reales y acompañamiento experto. Capacitaciones, asesorías y conferencias para fortalecer tu práctica educativa.</p>
       <button class="svc-expand-btn" aria-expanded="false">
-        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
@@ -2370,23 +2377,6 @@
     setActive();
   })();
 
-  // ── Entrance animations ──
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.service-card, .step, .porque-item, .bil-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
-  });
-
 
   // ═══════════════════════════════════════════════
   //  WHATSAPP WIDGET LOGIC
@@ -2805,6 +2795,25 @@ a[href="#"], a[href=""] {
   pointer-events: auto;
   cursor: pointer;
 }
+
+/* ── SEGURIDAD: los botones CTA nunca quedan ocultos por AOS ──
+   Si un ancestro tiene opacity:0 por AOS no aplicado aún,
+   estos elementos fuerzan su propia visibilidad              */
+.btn-primary,
+.btn-outline,
+.btn-black,
+.hero-btns,
+.contact-btns,
+.mobile-menu-cta,
+.nav-cta,
+a[href*="wa.me"],
+a[href*="whatsapp"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 1;
+}
 </style>
 
 <!-- Cursor elements -->
@@ -2861,22 +2870,33 @@ a[href="#"], a[href=""] {
 
 
   /* ─────────────────────────────────────
-     2. ANIMATE ON SCROLL
+     2. ANIMATE ON SCROLL — robusto
+     Regla de oro: NUNCA aplicar AOS a
+     contenedores con botones/links CTA.
   ───────────────────────────────────── */
   const aosObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const el = entry.target;
-        el.classList.add('aos-in');
-        // Section labels
-        el.querySelectorAll('.section-label').forEach(lbl => {
-          lbl.classList.add('label-animate');
-        });
-        aosObserver.unobserve(el);
+        entry.target.classList.add('aos-in');
+        entry.target.querySelectorAll('.section-label').forEach(lbl => lbl.classList.add('label-animate'));
+        aosObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -40px 0px'   // dispara antes de salir del viewport
+  });
 
+  // Fallback de seguridad: si tras 2s un elemento AOS no animó, forzarlo visible
+  setTimeout(() => {
+    document.querySelectorAll('.aos-fade-up, .aos-fade-left, .aos-fade-right, .aos-zoom, .split-title').forEach(el => {
+      if (!el.classList.contains('aos-in')) {
+        el.classList.add('aos-in');
+      }
+    });
+  }, 2000);
+
+  // Observar todos los que ya tengan clase AOS en el HTML
   document.querySelectorAll('.aos-fade-up, .aos-fade-left, .aos-fade-right, .aos-zoom, .split-title').forEach(el => {
     aosObserver.observe(el);
   });
@@ -3030,26 +3050,30 @@ a[href="#"], a[href=""] {
 
 
   /* ─────────────────────────────────────
-     7. APLICAR AOS CLASES al HTML existente
+     7. APLICAR AOS CLASES
+     ⚠️  REGLA: ningún contenedor con <a>
+     o <button> CTA recibe clase AOS.
   ───────────────────────────────────── */
-
-  // Hero content — NO aplicar AOS a hero-btns para que siempre sean clickeables
-  const heroContent = document.querySelector('.hero-content');
-  if (heroContent) {
-    const badge = heroContent.querySelector('.hero-badge');
-    const h1    = heroContent.querySelector('h1');
-    const p     = heroContent.querySelector('p');
-    // Nota: hero-btns NO lleva AOS para garantizar clicks funcionales
-    if (badge) { badge.classList.add('aos-fade-up'); aosObserver.observe(badge); }
-    if (h1)    { h1.classList.add('aos-fade-up', 'aos-delay-1'); aosObserver.observe(h1); }
-    if (p)     { p.classList.add('aos-fade-up', 'aos-delay-2'); aosObserver.observe(p); }
+  function addAos(el, cls, delay) {
+    if (!el) return;
+    el.classList.add(cls);
+    if (delay) el.classList.add(delay);
+    aosObserver.observe(el);
   }
 
-  // Section labels
-  document.querySelectorAll('.section-label').forEach((el, i) => {
-    if (!el.classList.contains('aos-fade-up')) {
-      el.classList.add('aos-zoom', 'aos-delay-1');
-      aosObserver.observe(el);
+  // Hero — solo textos, NUNCA .hero-btns
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    addAos(heroContent.querySelector('.hero-badge'), 'aos-fade-up');
+    addAos(heroContent.querySelector('h1'),          'aos-fade-up', 'aos-delay-1');
+    addAos(heroContent.querySelector('p'),           'aos-fade-up', 'aos-delay-2');
+    // .hero-btns: sin AOS → siempre visible y clickeable
+  }
+
+  // Section labels (solo los que no sean ancestros de botones)
+  document.querySelectorAll('.section-label').forEach(el => {
+    if (!el.closest('[class*="btn"]') && !el.querySelector('a, button')) {
+      addAos(el, 'aos-zoom', 'aos-delay-1');
     }
   });
 
@@ -3060,87 +3084,65 @@ a[href="#"], a[href=""] {
     aosObserver.observe(el);
   });
 
-  // Section subs
-  document.querySelectorAll('.section-sub').forEach((el, i) => {
-    el.classList.add('aos-fade-up', 'aos-delay-2');
-    aosObserver.observe(el);
+  // Section subs (solo texto, sin botones)
+  document.querySelectorAll('.section-sub').forEach(el => {
+    addAos(el, 'aos-fade-up', 'aos-delay-2');
   });
 
   // Service cards
   document.querySelectorAll('.service-card').forEach((el, i) => {
-    el.classList.remove('aos-fade-up'); // clear previous
-    el.classList.add('aos-fade-up', `aos-delay-${Math.min(i % 3 + 1, 5)}`);
-    aosObserver.observe(el);
+    el.classList.remove('aos-fade-up');
+    addAos(el, 'aos-fade-up', `aos-delay-${Math.min(i % 3 + 1, 5)}`);
   });
 
   // Steps
   document.querySelectorAll('.step').forEach((el, i) => {
-    el.classList.add('aos-zoom', `aos-delay-${Math.min(i + 1, 5)}`);
-    aosObserver.observe(el);
+    addAos(el, 'aos-zoom', `aos-delay-${Math.min(i + 1, 5)}`);
   });
 
   // Porque items
   document.querySelectorAll('.porque-item').forEach((el, i) => {
-    el.classList.add('aos-fade-left', `aos-delay-${Math.min(i + 1, 5)}`);
-    aosObserver.observe(el);
+    addAos(el, 'aos-fade-left', `aos-delay-${Math.min(i + 1, 5)}`);
   });
 
   // Porque visual cards
   document.querySelectorAll('.pq-card').forEach((el, i) => {
-    el.classList.add('aos-zoom', `aos-delay-${Math.min(i + 1, 5)}`);
-    aosObserver.observe(el);
+    addAos(el, 'aos-zoom', `aos-delay-${Math.min(i + 1, 5)}`);
   });
 
   // Bil cards
   document.querySelectorAll('.bil-card').forEach((el, i) => {
-    el.classList.add('aos-fade-up', `aos-delay-${Math.min(i + 1, 5)}`);
-    aosObserver.observe(el);
+    addAos(el, 'aos-fade-up', `aos-delay-${Math.min(i + 1, 5)}`);
   });
 
   // Terapia cards
   document.querySelectorAll('.terapia-card').forEach((el, i) => {
-    el.classList.add('aos-zoom', `aos-delay-${Math.min(i + 1, 5)}`);
-    aosObserver.observe(el);
+    addAos(el, 'aos-zoom', `aos-delay-${Math.min(i + 1, 5)}`);
   });
 
-  // Max section images
+  // Max images
   document.querySelectorAll('.max-images img').forEach((el, i) => {
-    el.classList.add('aos-fade-up', `aos-delay-${i + 1}`);
-    aosObserver.observe(el);
+    addAos(el, 'aos-fade-up', `aos-delay-${Math.min(i + 1, 5)}`);
   });
 
-  // Max content
-  const maxContent = document.querySelector('.max-content');
-  if (maxContent) {
-    maxContent.classList.add('aos-fade-right');
-    aosObserver.observe(maxContent);
-  }
+  // Max content (solo texto, el CTA de terapias está fuera)
+  addAos(document.querySelector('.max-content'), 'aos-fade-right');
 
-  // Services intro left
-  const servIntroLeft = document.querySelector('.services-intro > div:first-child');
-  if (servIntroLeft) {
-    servIntroLeft.classList.add('aos-fade-right');
-    aosObserver.observe(servIntroLeft);
-  }
+  // Services intro texto
+  addAos(document.querySelector('.services-intro > div:first-child'), 'aos-fade-right');
 
-  // Milena
-  const milenaVisual = document.querySelector('.milena-visual');
-  const milenaText   = document.querySelector('.milena-text');
-  if (milenaVisual) { milenaVisual.classList.add('aos-zoom'); aosObserver.observe(milenaVisual); }
-  if (milenaText)   { milenaText.classList.add('aos-fade-left', 'aos-delay-2'); aosObserver.observe(milenaText); }
+  // Milena visual + texto (sin botones)
+  addAos(document.querySelector('.milena-visual'), 'aos-zoom');
+  addAos(document.querySelector('.milena-text'),   'aos-fade-left', 'aos-delay-2');
 
-  // Contacto
-  const ctaH2 = document.querySelector('#contacto h2');
-  const ctaP  = document.querySelector('#contacto p');
-  const ctaBtns = document.querySelector('.contact-btns');
-  if (ctaH2)   { ctaH2.classList.add('aos-zoom');           aosObserver.observe(ctaH2); }
-  if (ctaP)    { ctaP.classList.add('aos-fade-up', 'aos-delay-2'); aosObserver.observe(ctaP); }
-  if (ctaBtns) { ctaBtns.classList.add('aos-fade-up', 'aos-delay-3'); aosObserver.observe(ctaBtns); }
+  // Contacto — SOLO h2 y p, NUNCA .contact-btns
+  addAos(document.querySelector('#contacto h2'), 'aos-zoom');
+  addAos(document.querySelector('#contacto p'),  'aos-fade-up', 'aos-delay-2');
+  // .contact-btns: sin AOS → siempre clickeable
 
-  // Terapias beneficios cards
+  // Terapias benefit cards
   document.querySelectorAll('#terapias [style*="border-left"]').forEach((el, i) => {
-    el.classList.add('aos-fade-up', `aos-delay-${Math.min(i + 1, 5)}`);
-    aosObserver.observe(el);
+    addAos(el, 'aos-fade-up', `aos-delay-${Math.min(i + 1, 5)}`);
   });
 
 
