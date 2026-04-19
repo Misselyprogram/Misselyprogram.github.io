@@ -31,7 +31,7 @@
 
   /* ─── NAV ─── */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1002;
     background: var(--white);
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 5%;
@@ -50,9 +50,27 @@
 
   .nav-logo span { color: var(--white); }
 
-  .nav-links {
-    display: flex; gap: 32px; list-style: none;
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
+
+  .nav-tagline {
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--black);
+    letter-spacing: 0.5px;
+    border-left: 2px solid rgba(0,0,0,0.15);
+    padding-left: 14px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-hamburger { display: none; }
+  .nav-mobile-menu { visibility: hidden; opacity: 0; pointer-events: none; }
+  .nav-overlay { display: none; }
 
   .nav-links a {
     color: var(--black);
@@ -290,16 +308,19 @@
 
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .service-card {
-    background: var(--gray);
+    background: #f0f0ee;
     border-radius: 16px;
     padding: 28px 24px;
     border: 2px solid transparent;
-    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    transition: border-color 0.2s, transform 0.2s, background 0.3s, color 0.3s, box-shadow 0.2s;
     position: relative;
     overflow: hidden;
   }
@@ -307,17 +328,38 @@
   .service-card:hover {
     border-color: var(--yellow);
     transform: translateY(-4px);
-    background: var(--white);
-    box-shadow: 0 8px 30px rgba(255,215,0,0.12);
+    background: #e8e8e6;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.10);
   }
 
+  /* Quitar clase featured — todas uniforme gris */
   .service-card.featured {
-    background: var(--black);
-    color: var(--white);
+    background: #f0f0ee;
+    color: var(--text);
   }
 
-  .service-card.featured .svc-title { color: var(--yellow); }
-  .service-card.featured .svc-desc { color: #ccc; }
+  .service-card.featured .svc-title { color: var(--black); }
+  .service-card.featured .svc-desc { color: var(--muted); }
+  .service-card.featured .svc-icon { background: var(--yellow); }
+
+  /* Expandida → fondo negro */
+  .service-card.expanded {
+    background: var(--black) !important;
+    border-color: var(--yellow) !important;
+    box-shadow: 0 12px 36px rgba(255, 215, 0, 0.18) !important;
+    transform: translateY(-4px);
+    z-index: 2;
+    position: relative;
+  }
+
+  .service-card.expanded .svc-title { color: var(--yellow) !important; }
+  .service-card.expanded .svc-desc  { color: #cccccc !important; }
+  .service-card.expanded .svc-icon  { background: rgba(255,215,0,0.15) !important; }
+  .service-card.expanded .svc-expand-btn {
+    background: var(--yellow);
+    color: var(--black);
+    border-color: var(--yellow);
+  }
 
   .svc-icon {
     width: 48px; height: 48px;
@@ -326,9 +368,8 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 22px;
     margin-bottom: 16px;
+    transition: background 0.3s;
   }
-
-  .service-card.featured .svc-icon { background: rgba(255,215,0,0.15); }
 
   .svc-title {
     font-family: 'Bangers', cursive;
@@ -336,96 +377,140 @@
     color: var(--black);
     margin-bottom: 8px;
     letter-spacing: 0.5px;
+    transition: color 0.3s;
   }
 
   .svc-desc {
     font-size: 14px;
     color: var(--muted);
     line-height: 1.6;
+    transition: color 0.3s;
   }
 
-  /* ─── SERVICIOS — Accordion ─── */
+  /* ─── SERVICIOS — Accordion (uno a la vez) ─── */
   .svc-list {
-    margin-top: 12px;
     list-style: none;
-    display: flex; flex-direction: column; gap: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease, margin-top 0.3s ease;
     opacity: 0;
+    margin-top: 0;
+    transition:
+      max-height 0.48s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.32s ease,
+      margin-top 0.32s ease;
   }
 
   .service-card.expanded .svc-list {
-    max-height: 300px;
+    max-height: 360px;
     opacity: 1;
-    margin-top: 14px;
+    margin-top: 16px;
   }
 
-  .svc-expand-btn {
-    margin-top: 14px;
+  /* Cada ítem aparece con stagger */
+  .svc-list li {
+    font-size: 13.5px;
+    color: var(--muted);
     display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .service-card.expanded .svc-list li {
+    opacity: 1;
+    transform: translateX(0);
+    color: #cccccc;
+    border-bottom-color: rgba(255,255,255,0.08);
+  }
+
+  /* Stagger delays para cada li */
+  .service-card.expanded .svc-list li:nth-child(1) { transition-delay: 0.08s; }
+  .service-card.expanded .svc-list li:nth-child(2) { transition-delay: 0.16s; }
+  .service-card.expanded .svc-list li:nth-child(3) { transition-delay: 0.24s; }
+  .service-card.expanded .svc-list li:nth-child(4) { transition-delay: 0.32s; }
+  .service-card.expanded .svc-list li:nth-child(5) { transition-delay: 0.40s; }
+
+  .svc-list li:last-child { border-bottom: none; }
+
+  .svc-list li::before {
+    content: '';
+    width: 7px; height: 7px;
+    min-width: 7px;
+    background: var(--yellow);
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  /* Botón expandir */
+  .svc-expand-btn {
+    margin-top: 16px;
+    display: inline-flex;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
+    padding: 7px 14px 7px 7px;
+    border-radius: 30px;
     font-family: 'Nunito', sans-serif;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 900;
-    color: var(--yellow-dark);
-    letter-spacing: 0.3px;
-    transition: color 0.2s;
+    letter-spacing: 0.4px;
+    color: var(--black);
+    background: rgba(255, 215, 0, 0.18);
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+    border: 1.5px solid rgba(255, 215, 0, 0.35);
   }
 
-  .service-card.featured .svc-expand-btn { color: #FFD700; }
+  .service-card.featured .svc-expand-btn {
+    color: var(--black);
+    background: rgba(255, 215, 0, 0.18);
+    border-color: rgba(255, 215, 0, 0.35);
+  }
 
-  .svc-expand-btn:hover { color: var(--black); }
-  .service-card.featured .svc-expand-btn:hover { color: #fff; }
+  .svc-expand-btn:hover {
+    background: var(--yellow);
+    color: var(--black);
+    transform: translateY(-1px);
+  }
 
+  .service-card.expanded .svc-expand-btn {
+    background: var(--yellow);
+    color: var(--black);
+    border-color: var(--yellow);
+  }
+
+  /* Ícono flecha */
   .svc-expand-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px; height: 22px;
+    width: 20px; height: 20px;
     background: var(--yellow);
     border-radius: 50%;
-    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), background 0.2s;
     flex-shrink: 0;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .service-card.featured .svc-expand-icon { background: rgba(255,215,0,0.25); }
-
-  .svc-expand-icon svg {
-    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
-  }
-
-  .service-card.expanded .svc-expand-icon svg {
-    transform: rotate(180deg);
+  .service-card.featured .svc-expand-icon {
+    background: var(--yellow);
   }
 
   .service-card.expanded .svc-expand-icon {
+    transform: rotate(180deg);
     background: var(--black);
   }
 
   .service-card.featured.expanded .svc-expand-icon {
     background: var(--yellow);
-  }
-
-  .svc-list li {
-    font-size: 13px;
-    color: var(--muted);
-    display: flex; align-items: center; gap: 8px;
-  }
-
-  .service-card.featured .svc-list li { color: #bbb; }
-
-  .svc-list li::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--yellow);
-    border-radius: 50%;
-    flex-shrink: 0;
   }
 
   .free-tag {
@@ -622,23 +707,78 @@
   /* ─── MILENA ─── */
   #milena {
     background: var(--yellow);
-    display: flex; align-items: center; gap: 60px; flex-wrap: wrap;
     border-top: 4px solid var(--black);
     border-bottom: 4px solid var(--black);
+    padding: 80px 5%;
   }
 
-  .milena-text h2 {
+  .milena-inner {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .milena-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .milena-avatar-wrap {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #111;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .milena-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .milena-name {
     font-family: 'Bangers', cursive;
-    font-size: clamp(36px, 5vw, 58px);
+    font-size: 22px;
+    color: var(--black);
+    letter-spacing: 1px;
+  }
+
+  .milena-sub {
+    font-size: 12px;
+    color: #555;
+    font-weight: 700;
+  }
+
+  .milena-text {
+    flex: 1;
+    min-width: 260px;
+  }
+
+  .milena-heading {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(28px, 4vw, 52px);
     color: var(--black);
     line-height: 1.05;
     letter-spacing: 1px;
-    margin-bottom: 16px;
-    margin-top: 12px;
+    margin-bottom: 14px;
+    margin-top: 10px;
   }
 
   .milena-text p {
-    font-size: 16px; color: #333; line-height: 1.7; margin-bottom: 12px;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.7;
+    margin-bottom: 10px;
   }
 
   .milena-chips {
@@ -650,8 +790,9 @@
     color: var(--yellow);
     font-size: 12px;
     font-weight: 900;
-    padding: 6px 16px;
+    padding: 8px 18px;
     border-radius: 30px;
+    white-space: nowrap;
   }
 
   .milena-avatar {
@@ -660,22 +801,6 @@
     object-fit: cover;
     border: 5px solid var(--black);
     flex-shrink: 0;
-  }
-
-  .milena-visual {
-    display: flex; flex-direction: column; align-items: center; gap: 12px;
-    flex-shrink: 0;
-  }
-
-  .milena-name {
-    font-family: 'Bangers', cursive;
-    font-size: 22px;
-    color: var(--black);
-    letter-spacing: 1px;
-  }
-
-  .milena-sub {
-    font-size: 12px; color: #555; font-weight: 700;
   }
 
   /* ─── COLEGIOS BILINGUES ─── */
@@ -759,13 +884,25 @@
 
   .btn-black:hover { background: #333; transform: translateY(-2px); }
 
-  .cta-mascot {
-    position: absolute; right: 8%; bottom: 0;
-    height: 260px; object-fit: contain;
+  /* Nueva imagen mascota centrada al fondo del banner */
+  .cta-mascot-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 32px;
+    margin-bottom: -90px;
     pointer-events: none;
   }
 
-  #contacto { position: relative; overflow: hidden; }
+  .cta-mascot-new {
+    height: 280px;
+    max-width: 280px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 -4px 20px rgba(0,0,0,0.15));
+  }
+
+  #contacto { position: relative; overflow: visible; }
 
   /* ─── FOOTER ─── */
   footer {
@@ -773,8 +910,42 @@
     color: #aaa;
     padding: 40px 5%;
     display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 20px;
+    flex-wrap: wrap; gap: 24px;
     border-top: 3px solid var(--yellow);
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-logo-img {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .footer-academy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-left: 2px solid rgba(255,215,0,0.3);
+    padding-left: 16px;
+  }
+
+  .footer-by {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FFD700;
+  }
+
+  .footer-partner {
+    font-size: 13px;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 0.4px;
   }
 
   .footer-logo {
@@ -860,16 +1031,236 @@
     0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .hero-mascot { display: none; }
-    #porque { grid-template-columns: 1fr; }
-    .services-intro { grid-template-columns: 1fr; }
-    #max { flex-direction: column; }
+  /* ═══════════════════════════════════════════
+     RESPONSIVE — TABLET (≤ 1024px)
+  ═══════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    nav { padding: 0 4%; }
+    .nav-links { gap: 20px; }
+    .nav-links a { font-size: 13px; }
+    .nav-tagline { display: none; }
+
+    #hero { padding: 100px 5% 60px; }
+    .hero-mascot { height: 60%; right: 2%; opacity: 0.7; }
+
+    #porque { gap: 40px; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: repeat(2, 1fr); gap: 32px; }
     .steps::before { display: none; }
-    .cta-mascot { display: none; }
+
+    #max { gap: 40px; }
+    .max-images img { height: 160px; }
+    .max-images img:nth-child(2) { height: 210px; }
+    .max-images img:nth-child(3) { height: 150px; }
+  }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE — MOBILE (≤ 768px)
+  ═══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* NAV */
+    nav {
+      padding: 0 4%;
+      height: 64px;
+    }
+    .nav-tagline { display: none; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+
+    /* ── HAMBURGER ICON — 3 líneas amarillas ── */
+    .nav-hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+      z-index: 1001;
+      position: relative;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: var(--yellow);
+      border-radius: 3px;
+      transition: transform 0.3s ease, opacity 0.2s ease;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    /* ── PANEL FLOTANTE — todos los 6 items visibles de una vez ── */
+    .nav-mobile-menu {
+      position: fixed !important;
+      top: 68px !important;
+      right: 16px !important;
+      left: auto !important;
+      bottom: auto !important;
+      width: 240px !important;
+      height: auto !important;
+      background: #ffffff !important;
+      border-radius: 16px !important;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.22) !important;
+      z-index: 1000 !important;
+      overflow: visible !important;
+      /* Oculto por defecto */
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      transform: scale(0.95) translateY(-8px) !important;
+      transform-origin: top right !important;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s !important;
+    }
+    .nav-mobile-menu.open {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: all !important;
+      transform: scale(1) translateY(0) !important;
+    }
+    .nav-mobile-menu ul {
+      list-style: none !important;
+      padding: 6px 0 !important;
+      margin: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    .nav-mobile-menu ul li {
+      display: block !important;
+    }
+    .nav-mobile-menu a {
+      font-family: 'Nunito', sans-serif !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      color: #111111 !important;
+      text-decoration: none !important;
+      display: block !important;
+      padding: 14px 22px !important;
+      border-bottom: 1px solid #f0f0f0 !important;
+      transition: background 0.15s !important;
+      letter-spacing: 0.2px !important;
+    }
+    .nav-mobile-menu ul li:last-child a {
+      border-bottom: none !important;
+      background: var(--yellow) !important;
+      color: #111 !important;
+      font-weight: 900 !important;
+      text-align: center !important;
+      border-radius: 0 0 16px 16px !important;
+    }
+    .nav-mobile-menu a:hover {
+      background: #fffbe6 !important;
+    }
+    .nav-mobile-menu ul li:last-child a:hover {
+      background: var(--yellow-dark) !important;
+    }
+
+    /* HERO */
+    #hero {
+      padding: 90px 5% 60px;
+      min-height: auto;
+    }
+    .hero-mascot { display: none; }
+    .hero-stripes { opacity: 0.04; }
+    .hero-content h1 { font-size: clamp(44px, 12vw, 64px); }
+    .hero-content p { font-size: 16px; }
+    .hero-btns { flex-direction: column; }
+    .btn-primary, .btn-outline { text-align: center; }
+    .hero-stats { gap: 24px; margin-top: 36px; }
+    .stat .num { font-size: 32px; }
+
+    /* COLEGIOS */
+    #colegios { flex-direction: column; padding: 28px 4%; }
+    .colegios-badges { justify-content: center; }
+
+    /* SERVICIOS */
+    #servicios { padding: 60px 4%; }
+    .services-intro { grid-template-columns: 1fr; gap: 24px; margin-bottom: 36px; }
     .services-img-wrap { display: none; }
-    #colegios { flex-direction: column; text-align: center; }
+    .services-grid { grid-template-columns: 1fr; gap: 14px; }
+
+    /* MAX */
+    #max { flex-direction: column; padding: 60px 4%; gap: 24px; }
+    .max-images { justify-content: center; }
+    .max-images img, .max-mascot-img { height: 120px !important; }
+    .max-bg-text { font-size: 100px; }
+
+    /* PROCESO */
+    #proceso { padding: 60px 4%; }
+    .proceso-header { margin-bottom: 40px; }
+    .steps { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .steps::before { display: none; }
+    .step-num { width: 64px; height: 64px; font-size: 24px; }
+
+    /* POR QUÉ */
+    #porque { grid-template-columns: 1fr; gap: 40px; padding: 60px 4%; }
+    .porque-visual { grid-template-columns: 1fr 1fr; }
+    .pq-card:nth-child(2), .pq-card:nth-child(3) { margin-top: 0; }
+
+    /* MILENA */
+    #milena { padding: 56px 4%; }
+    .milena-inner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 28px;
+    }
+    .milena-text { min-width: 0; width: 100%; text-align: center; }
+    .milena-heading { font-size: clamp(26px, 7vw, 38px); }
+    .milena-text p { font-size: 14px; }
+    .milena-chips-carousel-wrap { margin-top: 16px; }
+
+    /* COLEGIOS BILINGUES */
+    #bilingues { padding: 60px 4%; }
+    .bilingues-grid { grid-template-columns: 1fr 1fr; }
+
+    /* CONTACTO */
+    #contacto { padding: 60px 4%; }
+    #contacto h2 { font-size: clamp(32px, 9vw, 52px); }
+    .cta-mascot-wrap { margin-bottom: -60px; }
+    .cta-mascot-new { height: 220px; max-width: 220px; }
+
+    /* TERAPIAS */
+    #terapias { padding: 60px 4% !important; }
+    #terapias > div:first-child { margin-bottom: 40px; }
+
+    /* FOOTER */
+    footer {
+      flex-direction: column;
+      text-align: center;
+      padding: 36px 4%;
+      gap: 20px;
+    }
+    .footer-left { flex-direction: column; align-items: center; }
+    .footer-academy { border-left: none; border-top: 2px solid rgba(255,215,0,0.2); padding-left: 0; padding-top: 10px; align-items: center; }
+    .footer-links { justify-content: center; flex-wrap: wrap; gap: 16px; }
+    footer p { order: 3; }
+
+    /* SOCIAL BAR */
+    #contactbar { padding: 18px 4%; gap: 20px; }
+  }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE — SMALL MOBILE (≤ 480px)
+  ═══════════════════════════════════════════ */
+  @media (max-width: 480px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .bilingues-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .porque-visual { grid-template-columns: 1fr 1fr; }
+    .hero-stats { flex-direction: row; flex-wrap: wrap; gap: 16px 28px; }
+
+    #wa-widget { bottom: 18px; right: 16px; }
+    #wa-card { width: 270px; }
+    #wa-btn { width: 54px; height: 54px; }
+
+    /* Mascota contacto mobile */
+    .cta-mascot-wrap { margin-bottom: -60px; }
+    .cta-mascot-new { height: 180px; max-width: 180px; }
   }
 
   /* ═══════════════════════════════════════════════════════════
@@ -1261,8 +1652,28 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo"><img src="img/logo.png" alt="Miss Ely Program" style="height:52px;width:auto;object-fit:contain;display:block;"></a>
+  <div class="nav-brand">
+    <a href="#" class="nav-logo"><img src="img/logo.png" alt="Miss Ely Program" style="height:52px;width:auto;object-fit:contain;display:block;"></a>
+    <span class="nav-tagline">Your Academic Partner</span>
+  </div>
   <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proceso">¿Cómo funciona?</a></li>
+    <li><a href="#porque">¿Por qué nosotros?</a></li>
+    <li><a href="#bilingues">Colegios Bilingües</a></li>
+    <li><a href="#terapias">Terapias</a></li>
+    <li><a href="#contacto" class="nav-cta">Contáctanos</a></li>
+  </ul>
+
+  <!-- Hamburger (mobile) -->
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu — full screen black overlay -->
+<nav class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+  <ul>
     <li><a href="#servicios">Servicios</a></li>
     <li><a href="#proceso">¿Cómo funciona?</a></li>
     <li><a href="#porque">¿Por qué nosotros?</a></li>
@@ -1338,14 +1749,13 @@
       <p class="svc-desc">Apoyamos a tus hijos en todas las materias, en español e inglés, trabajando de la mano con los colegios y sus plataformas institucionales.</p>
       <button class="svc-expand-btn" aria-expanded="false">
         <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        Ver detalles
+        <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
-        <li>Matemáticas, Ciencias, Inglés, Sociales y más</li>
-        <li>Diagnóstico de cualidades y aptitudes</li>
-        <li>Diagnóstico matemático inicial</li>
-        <li>Revisión de plataformas del colegio</li>
-        <li>Preparación para exámenes</li>
+        <li>Diagnóstico de cualidades y aptitudes (Matemáticas, Ciencias, Inglés, Sociales y más).</li>
+        <li>Diagnóstico de cualidades y aptitudes.</li>
+        <li>Diagnóstico matemático inicial.</li>
+        <li>Revisión de plataformas del colegio.</li>
       </ul>
     </div>
 
@@ -1355,13 +1765,13 @@
       <p class="svc-desc">Nuestros tutores expertos llegan a tu casa para una enseñanza directa, personalizada y cómoda para toda la familia.</p>
       <button class="svc-expand-btn" aria-expanded="false">
         <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        Ver detalles
+        <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
-        <li>Tutor certificado en tu domicilio</li>
-        <li>Horario flexible a tu medida</li>
-        <li>Interacción directa y personalizada</li>
-        <li>Seguimiento semanal al progreso</li>
+        <li>Tutor certificado en tu domicilio.</li>
+        <li>Horario flexible a tu medida.</li>
+        <li>Interacción directa y personalizada.</li>
+        <li>Seguimiento semanal al progreso.</li>
       </ul>
     </div>
 
@@ -1371,13 +1781,13 @@
       <p class="svc-desc">Aprende desde la comodidad del hogar con herramientas digitales de vanguardia y docentes bilingües altamente capacitados.</p>
       <button class="svc-expand-btn" aria-expanded="false">
         <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        Ver detalles
+        <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
-        <li>Plataformas interactivas de última generación</li>
-        <li>Clases en vivo con docente dedicado</li>
-        <li>Material didáctico digital incluido</li>
-        <li>Grabación de sesiones disponible</li>
+        <li>Plataformas interactivas de última generación.</li>
+        <li>Clases en vivo con docente dedicado.</li>
+        <li>Material didáctico digital incluido.</li>
+        <li>Grabación de sesiones disponible.</li>
       </ul>
     </div>
 
@@ -1388,13 +1798,13 @@
       <p class="svc-desc">Incluido en todos nuestros planes. Desarrollamos habilidades de aprendizaje que preparan a tus hijos para el éxito de por vida.</p>
       <button class="svc-expand-btn" aria-expanded="false">
         <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        Ver detalles
+        <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
-        <li>Gestión del tiempo y organización</li>
-        <li>Técnicas de toma de apuntes</li>
-        <li>Resolución de problemas</li>
-        <li>Evaluación y seguimiento constante</li>
+        <li>Gestión del tiempo y organización.</li>
+        <li>Técnicas de toma de apuntes.</li>
+        <li>Resolución de problemas.</li>
+        <li>Evaluación y seguimiento constante.</li>
       </ul>
     </div>
 
@@ -1405,13 +1815,13 @@
       <p class="svc-desc">Una guía completa para desarrollar la mejor versión en todas las áreas de la vida de tu hij@. Incluida en el programa.</p>
       <button class="svc-expand-btn" aria-expanded="false">
         <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        Ver detalles
+        <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
-        <li>Rueda de la vida personalizada</li>
-        <li>Desarrollo emocional y personal</li>
-        <li>Formación en valores y ética</li>
-        <li>Proyecto de vida a largo plazo</li>
+        <li>Rueda de la vida personalizada.</li>
+        <li>Desarrollo emocional y personal.</li>
+        <li>Formación en valores y ética.</li>
+        <li>Proyecto de vida a largo plazo.</li>
       </ul>
     </div>
 
@@ -1421,29 +1831,45 @@
       <p class="svc-desc">Nos coordinamos directamente con los colegios bilingües para complementar y reforzar el currículo institucional de manera efectiva.</p>
       <button class="svc-expand-btn" aria-expanded="false">
         <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        Ver detalles
+        <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
-        <li>Apoyo en tareas y cuadernos</li>
-        <li>Revisión de plataformas institucionales</li>
-        <li>Acciones reparadoras si hay incumplimientos</li>
-        <li>Comunicación con docentes del colegio</li>
+        <li>Apoyo en tareas y cuadernos.</li>
+        <li>Revisión de plataformas institucionales.</li>
+        <li>Acciones reparadoras si hay incumplimientos.</li>
+        <li>Comunicación con docentes del colegio.</li>
       </ul>
     </div>
 
-    <div class="service-card featured">
+    <div class="service-card">
       <div class="svc-icon">📜</div>
       <div class="svc-title">Certificados Oficiales</div>
       <p class="svc-desc">En Miss Ely Program 💛 no solo acompañamos el proceso académico… también emitimos certificados oficiales de clases y participación en el programa.</p>
       <button class="svc-expand-btn" aria-expanded="false">
-        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        Ver detalles
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="svc-expand-label">Ver detalles</span>
       </button>
       <ul class="svc-list">
-        <li>Certificados presentables ante colegios</li>
-        <li>Válidos para procesos de recuperación</li>
-        <li>Apoyo en validación académica</li>
-        <li>Un respaldo real para el proceso de tu hijo/a 💛</li>
+        <li>Certificados presentables ante colegios.</li>
+        <li>Válidos para procesos de recuperación.</li>
+        <li>Apoyo en validación académica.</li>
+        <li>Un respaldo real para el proceso de tu hijo/a 💛.</li>
+      </ul>
+    </div>
+
+    <div class="service-card">
+      <div class="svc-icon">👨‍🏫</div>
+      <div class="svc-title">Miss Ely Academy<br><small style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;letter-spacing:0;opacity:0.75;">Formación para docentes</small></div>
+      <p class="svc-desc">Transforma tu forma de enseñar con estrategias reales y acompañamiento experto. Capacitaciones, asesorías y conferencias para fortalecer tu práctica educativa.</p>
+      <button class="svc-expand-btn" aria-expanded="false">
+        <span class="svc-expand-icon"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="svc-expand-label">Ver detalles</span>
+      </button>
+      <ul class="svc-list">
+        <li>Estrategias innovadoras.</li>
+        <li>Investigación educativa.</li>
+        <li>Educación inclusiva.</li>
+        <li>Talleres prácticos.</li>
       </ul>
     </div>
   </div>
@@ -1470,7 +1896,7 @@
     <div class="section-label">Nuestra Mascota</div>
     <h2>¡Hola, soy <span class="hl">Max!</span><br>Tu compañero en este<br>proceso de aprendizaje.</h2>
     <p>Soy la mascota de Miss Ely Program. Acompaño a los estudiantes en cada clase, les doy ánimo cuando los problemas se ponen difíciles y celebro con ellos cada logro alcanzado.</p>
-    <p>Porque aprender no tiene que ser aburrido — ¡con Max a tu lado, cada clase es una aventura!</p>
+    <p>Porque aprender no tiene que ser aburrido, ¡Con Max a tu lado, cada clase es una aventura!.</p>
   </div>
 </section>
 
@@ -1510,7 +1936,7 @@
 <section id="porque">
   <div>
     <div class="section-label">¿Por qué Miss Ely Program?</div>
-    <h2 class="section-title">Somos tus socios en el aprendizaje de tu hijo/a 💛</h2>
+    <h2 class="section-title"><br>Somos tus socios en el <br>aprendizaje de tu hijo/a 💛</h2>
     <div class="porque-list">
       <div class="porque-item">
         <div class="porque-icon">🎓</div>
@@ -1564,23 +1990,31 @@
 </section>
 
 <!-- MILENA -->
-<section id="milena" style="text-align:center;flex-direction:column;align-items:center;">
-  <div class="milena-visual">
-    <div style="width:120px;height:120px;border-radius:50%;border:4px solid #111;overflow:hidden;flex-shrink:0;">
-      <img src="img/milena.jpeg" alt="Milena - Asistente Virtual" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+<section id="milena">
+  <div class="milena-inner">
+    <div class="milena-visual">
+      <div class="milena-avatar-wrap">
+        <img src="img/milena.jpeg" alt="Milena - Asistente Virtual" class="milena-avatar-img">
+      </div>
+      <div class="milena-name">MILENA</div>
+      <div class="milena-sub">Asistente Virtual</div>
     </div>
-    <div class="milena-name">MILENA</div>
-    <div class="milena-sub">Asistente Virtual</div>
-  </div>
-  <div class="milena-text" style="flex:1;text-align:center;max-width:560px;">
-    <h2>Milena siempre está aquí para ti.</h2>
-    <p>Presentamos a Milena, nuestra asistente virtual disponible para padres, estudiantes y docentes en cualquier momento del día. Sin costo adicional.</p>
-    <p>Resuelve dudas, comparte avances, coordina horarios y mantiene a toda la familia conectada con el programa de manera sencilla y efectiva.</p>
-    <div class="milena-chips" style="justify-content:center;">
-      <span class="chip">📱 WhatsApp directo</span>
-      <span class="chip">⏰ Disponible 24/7</span>
-      <span class="chip">👨‍👩‍👧 Para toda la familia</span>
-      <span class="chip">💛 Sin costo adicional</span>
+    <div class="milena-text">
+      <h2 class="milena-heading">Milena siempre está aquí para ti.</h2>
+      <p>Presentamos a Milena, nuestra asistente virtual disponible para padres, estudiantes y docentes en cualquier momento del día. Sin costo adicional.</p>
+      <p>Resuelve dudas, comparte avances, coordina horarios y mantiene a toda la familia conectada con el programa de manera sencilla y efectiva.</p>
+      <div class="milena-chips-carousel-wrap">
+        <div class="milena-chips-track" id="milena-chips-track">
+          <span class="chip">📱 WhatsApp directo</span>
+          <span class="chip">⏰ Disponible 24/7</span>
+          <span class="chip">👨‍👩‍👧 Para toda la familia</span>
+          <span class="chip">💛 Sin costo adicional</span>
+          <span class="chip">📱 WhatsApp directo</span>
+          <span class="chip">⏰ Disponible 24/7</span>
+          <span class="chip">👨‍👩‍👧 Para toda la familia</span>
+          <span class="chip">💛 Sin costo adicional</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1617,7 +2051,6 @@
 
 <!-- CTA FINAL -->
 <section id="contacto">
-  <img src="img/13.png" class="cta-mascot" alt="Max saludando">
   <div class="section-label">¡Empecemos hoy!</div>
   <h2>¿Listo para el<br>éxito de tu hijo?</h2>
   <p>Agenda hoy tu diagnóstico gratuito y descubre cómo Miss Ely Program puede transformar la experiencia académica de tu familia.</p>
@@ -1625,6 +2058,9 @@
     <a href="https://wa.me/573213204588" class="btn-black" target="_blank">
       💬 Escribir por WhatsApp
     </a>
+  </div>
+  <div class="cta-mascot-wrap">
+    <img src="max-saluda.png" class="cta-mascot-new" alt="Max saludando">
   </div>
 </section>
 
@@ -1745,7 +2181,13 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">MISS ELY PROGRAM</div>
+  <div class="footer-left">
+    <a href="#" class="footer-logo-img"><img src="img/logo.png" alt="Miss Ely Program" style="height:48px;width:auto;object-fit:contain;display:block;filter:brightness(0) invert(1);"></a>
+    <div class="footer-academy">
+      <span class="footer-by">by Miss Ely Academy</span>
+      <span class="footer-partner">Your Academic Partner</span>
+    </div>
+  </div>
   <p>© 2025 Miss Ely Program · Bogotá, Colombia<br>Formación académica y desarrollo personal de la mano.</p>
   <ul class="footer-links">
     <li><a href="#servicios">Servicios</a></li>
@@ -1958,7 +2400,7 @@
      · Title split-letter entrance
 ════════════════════════════════════════════════════════════ -->
 <style>
-/* ── Cursor personalizado — lápiz + estrella ── */
+/* ── Cursor personalizado — lápiz + anillo elegante ── */
 #cursor-dot {
   width: 28px; height: 28px;
   position: fixed;
@@ -1977,34 +2419,28 @@
 }
 
 #cursor-follower {
-  width: 24px; height: 24px;
+  width: 36px; height: 36px;
   position: fixed;
   top: 0; left: 0;
   pointer-events: none;
   z-index: 99998;
-  transform: translate(10px, -8px);
-  transition: left 0.14s ease, top 0.14s ease, opacity 0.3s ease;
-  font-size: 16px;
-  line-height: 1;
-  user-select: none;
-}
-#cursor-follower::after {
-  content: '⭐';
-  display: block;
-  animation: star-spin 3s linear infinite;
-}
-@keyframes star-spin {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(1.3); }
-  100% { transform: rotate(360deg) scale(1); }
+  border-radius: 50%;
+  border: 2px solid #FFD700;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  transition: left 0.13s ease, top 0.13s ease, opacity 0.3s ease,
+              width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
 }
 
 /* Estado hover sobre botones/links */
 body.cursor-hover #cursor-dot {
-  transform: translate(-4px, -24px) scale(1.3);
+  transform: translate(-4px, -24px) scale(1.25);
 }
 body.cursor-hover #cursor-follower {
-  font-size: 22px;
+  width: 52px;
+  height: 52px;
+  border-color: #FFD700;
+  border-width: 2.5px;
 }
 
 /* Ocultar cursor en móvil */
@@ -2251,7 +2687,7 @@ body.cursor-hover #cursor-follower {
       dot.style.top  = my + 'px';
     });
 
-    // Follower con lag suave
+    // Follower con lag suave (centrado en el cursor)
     (function animateFollower() {
       fx += (mx - fx) * 0.13;
       fy += (my - fy) * 0.13;
@@ -2563,6 +2999,101 @@ body.cursor-hover #cursor-follower {
     el.classList.add('aos-fade-up', `aos-delay-${Math.min(i + 1, 5)}`);
     aosObserver.observe(el);
   });
+
+
+  /* ─────────────────────────────────────
+     9. HAMBURGER MENU — MOBILE
+  ───────────────────────────────────── */
+  (function initHamburger() {
+    const hamburger  = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('nav-mobile-menu');
+    if (!hamburger || !mobileMenu) return;
+
+    function openMenu() {
+      hamburger.classList.add('open');
+      mobileMenu.classList.add('open');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+    }
+
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+    });
+
+    // Close when clicking a link
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
+  })();
+
+  /* ─────────────────────────────────────
+     8. ACCORDION SERVICIOS — uno a la vez
+  ───────────────────────────────────── */
+  (function initAccordion() {
+    const grid = document.querySelector('.services-grid');
+    if (!grid) return;
+
+    const cards    = Array.from(grid.querySelectorAll('.service-card'));
+    const btnLabel = (btn, isOpen) => {
+      const lbl = btn.querySelector('.svc-expand-label');
+      if (lbl) lbl.textContent = isOpen ? 'Ocultar' : 'Ver detalles';
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+
+    function closeCard(card) {
+      card.classList.remove('expanded');
+      const btn = card.querySelector('.svc-expand-btn');
+      if (btn) btnLabel(btn, false);
+    }
+
+    function openCard(card) {
+      // Cerrar todas las demás
+      cards.forEach(c => { if (c !== card) closeCard(c); });
+      card.classList.add('expanded');
+      const btn = card.querySelector('.svc-expand-btn');
+      if (btn) btnLabel(btn, true);
+
+      // Scroll suave al card si está fuera de vista
+      setTimeout(() => {
+        const rect = card.getBoundingClientRect();
+        if (rect.top < 80 || rect.bottom > window.innerHeight - 20) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }, 60);
+    }
+
+    cards.forEach(card => {
+      const btn = card.querySelector('.svc-expand-btn');
+      if (!btn) return;
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (card.classList.contains('expanded')) {
+          closeCard(card);
+        } else {
+          openCard(card);
+        }
+      });
+    });
+  })();
 
 })();
 </script>
